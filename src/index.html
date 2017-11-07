@@ -9,8 +9,8 @@
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet' />
   <style>
     body {
-      margin: 0;
-      padding: 0;
+      margin: 10px;
+      padding: 10px;
     }
 
     #map {
@@ -24,8 +24,15 @@
 
 <body>
 
+  <div>
+    <input type='text' id='from'>
+    <input type='text' id='to'>
+    <input type='button' id='search_button' value='Søk'>
+  </div>
   <div id='map'></div>
-  <script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  
+  <script src="addresses.js" type="text/javascript" charset="utf-8"></script>  
+    <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoic3ZlcnJlc3QiLCJhIjoiY2l1Y2VqcmRzMDAxMTJ0cGl6c3ZteGozMyJ9.ieY0kEubUisIWVVwjZiuBg';
     var map = new mapboxgl.Map({
       container: 'map',
