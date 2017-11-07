@@ -63,11 +63,12 @@ var VEIBLIKK_route = (function () {
       }
     });
 
+    VEIBLIKK_webcams.find_cctvs(route);
+
   };
 
   return {
-    get_route,
-    route
+    get_route
   }
 
 }());
