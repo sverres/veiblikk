@@ -20,7 +20,7 @@ var VEIBLIKK_address = (function () {
     var address_y = parseFloat(address["LATITUDE"]);
     var address_point = proj4_25832_to_25833(address_x, address_y);
     return address_point;
-  }
+  };
 
   $('#search_button').click(function () {
     start_address = $('#start_address').val();
@@ -53,8 +53,9 @@ var VEIBLIKK_address = (function () {
     var destination_point = parse_address_JSON(destination_address_JSON);
     route_points['destination_x'] = destination_point[0];
     route_points['destination_y'] = destination_point[1];
-  }
+    VEIBLIKK_route.get_route();
+  };
 
   return { route_points };
 
-}())
+}());
