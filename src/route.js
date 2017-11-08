@@ -9,6 +9,8 @@ var VEIBLIKK_route = (function () {
 
   var get_route = function () {
 
+    $('#webcams').empty();
+
     var stops = VEIBLIKK_address.route_points['start_x']
       + ',' + VEIBLIKK_address.route_points['start_y']
       + ';' + VEIBLIKK_address.route_points['destination_x']
@@ -45,6 +47,11 @@ var VEIBLIKK_route = (function () {
     console.log('vertices.length: ' + vertices.length);
 
     var route = turf.lineString(vertices);
+
+    if (map.getLayer('svv_route')) {
+      map.removeLayer('svv_route');
+      map.removeSource('svv_route');
+    };
 
     map.addLayer({
       'id': 'svv_route',
