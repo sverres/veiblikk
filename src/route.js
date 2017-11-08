@@ -33,7 +33,7 @@ var VEIBLIKK_route = (function () {
 
     var vertices = [];
 
-    var directions = jQuery.parseJSON(directions_JSON);
+    var directions = $.parseJSON(directions_JSON);
 
     for (vertice in directions.routes.features[0].geometry.paths[0]) {
       vertices.push(proj4_25833_to_4326(
