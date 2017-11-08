@@ -25,11 +25,12 @@
 <body>
 
   <div>
-    <input type='text' id='start_address'>
-    <input type='text' id='destination_address'>
+    Fra: <input type='text' id='start_address' size='50'>
+    Til: <input type='text' id='destination_address' size='50'>
     <input type='button' id='search_button' value='Søk'>
   </div>
   <div id='map'></div>
+  <div id='webcams'></div>
   <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoic3ZlcnJlc3QiLCJhIjoiY2l1Y2VqcmRzMDAxMTJ0cGl6c3ZteGozMyJ9.ieY0kEubUisIWVVwjZiuBg';
     var map = new mapboxgl.Map({

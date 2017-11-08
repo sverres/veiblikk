@@ -45,16 +45,16 @@ var VEIBLIKK_webcams = (function () {
     });
 
     console.log("Antall webcams: " + cctv_locations.length);
-    console.log(cctv_locations);
+    //console.log(cctv_locations);
 
     $(cctv_locations).each(function (){
-      console.log(this["properties"]["stillImageUrl"]);
+      //console.log(this["properties"]["stillImageUrl"]);
       var distance = parseFloat(this["properties"]["location"]).toFixed(0);
       var web_image_url = this["properties"]["stillImageUrl"];
       var yr_url = this["properties"]["urlLinkDescription"];
-      $('body').append('<h3>' + distance + ' km:</h3>');
-      $('body').append('<p><img src="' + web_image_url + '" /></p>');
-      $('body').append('<p><a href="' + yr_url + '" target="_blank">' + decodeURI(yr_url) + '</a></p>');
+      $('#webcams').append('<h3>' + distance + ' km:</h3>');
+      $('#webcams').append('<p><img src="' + web_image_url + '" /></p>');
+      $('#webcams').append('<p><a href="' + yr_url + '" target="_blank">' + decodeURI(yr_url) + '</a></p>');
     })
 
   };
