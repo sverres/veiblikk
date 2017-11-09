@@ -2,21 +2,27 @@ var VEIBLIKK_webcams = (function () {
 
   var route = null;
   
+
   var import_route = function (exported_route) {
     route = exported_route;
   };
 
+
   var get_cctvs_file = function () {
     $.ajax({
       url: 'GetCCTVSiteTable.xml',
-      success: get_cctvs_file_success
+      success: get_cctvs_file_success,
+      error: get_cctvs_file_error
     });
   };
 
 
   var get_cctvs_file_success = function (cctv_xml) {
 
-    var route_buffer = turf.buffer(route, 50, 'meters');
+    var option_units_meters = {units: 'meters'};
+    var option_units_kilometers = {units: 'kilometers'};
+
+    var route_buffer = turf.buffer(route, 50, option_units_meters);
 
     var cctv_locations = [];
 
@@ -27,7 +33,7 @@ var VEIBLIKK_webcams = (function () {
       var cctv_point = turf.point([cctv_lon, cctv_lat]);
       if (turf.inside(cctv_point, route_buffer)) {
 
-        var cctv_snapped = turf.pointOnLine(route, cctv_point, 'kilometers');
+        var cctv_snapped = turf.pointOnLine(route, cctv_point, option_units_kilometers);
 
         cctv_snapped["properties"]["stillImageUrl"]
           = xml_element.find("stillImageUrl").find("urlLinkAddress").text();
@@ -59,6 +65,11 @@ var VEIBLIKK_webcams = (function () {
 
   };
 
+
+  var get_cctvs_file_error = function () {
+    alert("Får ikke hentet webkamera-info. Ukjent feil.");
+  }
+  
 
   return {
     get_cctvs_file, 
