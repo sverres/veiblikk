@@ -11,6 +11,11 @@ var VEIBLIKK_route = (function () {
 
     $('#webcams').empty();
 
+    if (map.getLayer('svv_route')) {
+      map.removeLayer('svv_route');
+      map.removeSource('svv_route');
+    };
+
     var stops = VEIBLIKK_address.route_points['start_x']
       + ',' + VEIBLIKK_address.route_points['start_y']
       + ';' + VEIBLIKK_address.route_points['destination_x']
@@ -34,25 +39,13 @@ var VEIBLIKK_route = (function () {
   var get_route_success = function (directions_JSON) {
 
     var vertices = [];
-
     var directions = jQuery.parseJSON(directions_JSON);
-
-    for (vertice in directions.routes.features[0].geometry.paths[0]) {
-      vertices.push(proj4_25833_to_4326(
-        directions.routes.features[0].geometry.paths[0][vertice][0],
-        directions.routes.features[0].geometry.paths[0][vertice][1])
-      );
-    };
-
-    console.log('vertices.length: ' + vertices.length);
+    $(directions.routes.features[0].geometry.paths[0])
+      .each(function (index, vertice) {
+        vertices.push(proj4_25833_to_4326(vertice[0], vertice[1]));
+      });
 
     var route = turf.lineString(vertices);
-
-    if (map.getLayer('svv_route')) {
-      map.removeLayer('svv_route');
-      map.removeSource('svv_route');
-    };
-
     map.addLayer({
       'id': 'svv_route',
       'type': 'line',
