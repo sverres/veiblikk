@@ -22,7 +22,7 @@ var VEIBLIKK_route = (function () {
       + 'returnDirections=false&'
       + 'returnGeometry=true&'
       + 'route_type=best&'
-      + 'format=json'
+      + 'format=json';
 
     $.ajax({
       url: route_API,
