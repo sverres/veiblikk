@@ -83,7 +83,6 @@ var VEIBLIKK_route = (function () {
 
   var get_route_error = function () {
     alert("Ukjent feil i ruteberegningen. Avslutter.");
-    return false;
   }
 
 
