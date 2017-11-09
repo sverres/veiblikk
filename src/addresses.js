@@ -10,9 +10,18 @@ var VEIBLIKK_address = (function () {
   var start_address = null;
   var destination_address = null;
 
+
+  $('#search_button').click(function () {
+    start_address = $('#start_address').val();
+    destination_address = $('#destination_address').val();
+    get_starting_point();
+  });
+
+
   var proj4_25832_to_25833 = function (x, y) {
     return proj4("EPSG:25832", "EPSG:25833", [x, y]);
   };
+
 
   var parse_address_JSON = function (address_JSON) {
     var address = $.parseJSON(address_JSON)[0];
@@ -26,11 +35,6 @@ var VEIBLIKK_address = (function () {
     };
   };
 
-  $('#search_button').click(function () {
-    start_address = $('#start_address').val();
-    destination_address = $('#destination_address').val();
-    get_starting_point();
-  });
 
   var get_starting_point = function () {
     $.ajax({
@@ -39,6 +43,7 @@ var VEIBLIKK_address = (function () {
       error: get_starting_point_error
     });
   };
+
 
   var get_starting_point_success = function (start_address_JSON) {
     var start_point = parse_address_JSON(start_address_JSON);
@@ -52,9 +57,11 @@ var VEIBLIKK_address = (function () {
     }
   }
 
+
   var get_starting_point_error = function () {
     alert("Ukjent feil i fra-adresse-søk");
   }
+
 
   var get_destination_point = function () {
     $.ajax({
@@ -63,6 +70,7 @@ var VEIBLIKK_address = (function () {
       error: get_destination_point_error
     });
   };
+
 
   var get_destination_point_success = function (destination_address_JSON) {
     var destination_point = parse_address_JSON(destination_address_JSON);
@@ -76,9 +84,11 @@ var VEIBLIKK_address = (function () {
     };
   };
 
+
   var get_destination_point_error = function () {
     alert("Ukjent feil i til-adresse-søk");
   }
+
 
   return { route_points };
 
