@@ -58,9 +58,14 @@ var VEIBLIKK_route = (function () {
         "line-cap": "round"
       },
       'paint': {
-        "line-color": "#FF8C00",
+        "line-color": "#e94e1b",
         "line-width": 4
       }
+    });
+    var route_bbox = turf.bbox(route);
+    map.fitBounds(route_bbox, {
+      'padding': 25,
+      'animate': false
     });
 
     VEIBLIKK_webcams.import_route(route);
