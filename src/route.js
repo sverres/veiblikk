@@ -1,6 +1,6 @@
 var VEIBLIKK_route = (function () {
 
-  var route = {};
+  var route = null;
 
   var proj4_25833_to_4326 = function (x, y) {
     return proj4("EPSG:25833", "EPSG:4326", [x, y]);
@@ -31,15 +31,22 @@ var VEIBLIKK_route = (function () {
 
     $.ajax({
       url: route_API,
-      success: get_route_success
+      success: get_route_success,
+      error: get_route_error
     });
   };
 
 
   var get_route_success = function (directions_JSON) {
 
+    if (directions_JSON == false) {
+      alert('Ruteberegningen gav ikke noe resultat. Ukjent feil. Avslutter.');
+      return false;
+    };
+
+    var directions = $.parseJSON(directions_JSON);
+
     var vertices = [];
-    var directions = jQuery.parseJSON(directions_JSON);
     $(directions.routes.features[0].geometry.paths[0])
       .each(function (index, vertice) {
         vertices.push(proj4_25833_to_4326(vertice[0], vertice[1]));
@@ -60,15 +67,26 @@ var VEIBLIKK_route = (function () {
         "line-cap": "round"
       },
       'paint': {
-        "line-color": "#FF8C00",
+        "line-color": "#e94e1b",
         "line-width": 4
       }
+    });
+    var route_bbox = turf.bbox(route);
+    map.fitBounds(route_bbox, {
+      'padding': 25,
+      'animate': false
     });
 
     VEIBLIKK_webcams.import_route(route);
     VEIBLIKK_webcams.get_cctvs_file();
 
   };
+
+
+  var get_route_error = function () {
+    alert("Ukjent feil i ruteberegningen. Avslutter.");
+  }
+
 
   return { get_route };
 
