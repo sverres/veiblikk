@@ -6,37 +6,47 @@
   <title>veiblikk</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.css' rel='stylesheet' />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="veiblikk.css">
   <style>
-    body {
-      margin: 10px;
-      padding: 10px;
-    }
-
     #map {
-      top: 50px;
+      margin-top: 30px;
       max-width: 1280px;
-      height: 600px; 
-      margin-bottom: 60px;
+      height: 390px;
+      margin: auto;
+      margin-bottom: 30px;
+      border: solid 2px #FF8C00;
     }
   </style>
 </head>
 
 <body>
-
-  <div>
-    Fra: <input type='text' id='start_address' size='50'>
-    Til: <input type='text' id='destination_address' size='50'>
-    <input type='button' id='search_button' value='Søk'>
-  </div>
+  <header>
+    <img id="logo" src="logo.png">
+    <h2>Finn reiserute og se webkamerabilder fra veien</h2>
+    <section id="address-dialog">
+      <ul>
+        <li class='textbox'>
+          Fra:
+          <input type='text' id='start_address' size='50'>
+        </li>
+        <li class='textbox'>
+          Til:
+          <input type='text' id='destination_address' size='50'>
+        </li>
+        <input type='button' id='search_button' value='Søk'>
+      </ul>
+    </section>
+  </header>
   <div id='map'></div>
-  <div id='webcams'></div>
+  <section id='webcams'></section>
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
   <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoic3ZlcnJlc3QiLCJhIjoiY2l1Y2VqcmRzMDAxMTJ0cGl6c3ZteGozMyJ9.ieY0kEubUisIWVVwjZiuBg';
     var map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v9',
-      center: [10, 61],
+      center: [10, 60],
       zoom: 5
     });
   </script>

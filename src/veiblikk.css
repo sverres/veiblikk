@@ -1,0 +1,86 @@
+body {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 20px;
+  font-family: 'Open Sans';
+  font-size: 20px;
+}
+
+#logo {
+  height: 130px;
+  border: none;
+}
+
+header, 
+#address-dialog {
+  text-align: center;
+  margin: auto;
+}
+
+h2 {
+  margin-top: -5px;
+  font-size: 20px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+#address-dialog {
+  margin-right: 80px;
+  display: inline-block;
+  padding-bottom: 30px;
+  margin-top: -10px;
+}
+
+#start_address,
+#destination_address {
+  float: right;
+  margin-left: 10px;
+  font-size: 20px;
+  height: 30px;
+  width: 295px;
+}
+
+.textbox {
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+input {
+  border: 1px solid #e94e1b;
+  padding-left: 10px;
+}
+
+#search_button {
+  background-color: white;
+  border: 1px solid #e94e1b;
+  font-family: 'Open Sans';
+  font-size: 20px;
+  width: 200px;
+  padding: 5px;
+  margin-top: 15px;
+  margin-left: 48px;
+}
+
+
+#webcams {
+  max-width: 1280px;
+  margin: auto;
+  margin-top: 15px;
+}
+
+.svv_image {
+  margin-bottom: 40px;
+}
+
+.svv_image h4,
+.svv_image p {
+  max-width: 800px;
+  margin: auto;
+}
+
+.svv_image img {
+  border: 1px solid;
+  width: 800px;
+}
