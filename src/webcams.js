@@ -1,7 +1,7 @@
 var VEIBLIKK_webcams = (function () {
 
   var route = null;
-  
+
 
   var import_route = function (exported_route) {
     route = exported_route;
@@ -19,8 +19,8 @@ var VEIBLIKK_webcams = (function () {
 
   var get_cctvs_file_success = function (cctv_xml) {
 
-    var option_units_meters = {units: 'meters'};
-    var option_units_kilometers = {units: 'kilometers'};
+    var option_units_meters = { units: 'meters' };
+    var option_units_kilometers = { units: 'kilometers' };
 
     var route_buffer = turf.buffer(route, 50, option_units_meters);
 
@@ -53,14 +53,14 @@ var VEIBLIKK_webcams = (function () {
     console.log("Antall webcams: " + cctv_locations.length);
     //console.log(cctv_locations);
 
-    $(cctv_locations).each(function (){
+    $(cctv_locations).each(function () {
       //console.log(this["properties"]["stillImageUrl"]);
       var distance = parseFloat(this["properties"]["location"]).toFixed(0);
       var web_image_url = this["properties"]["stillImageUrl"];
       var yr_url = this["properties"]["urlLinkDescription"];
-      $('#webcams').append('<h3>' + distance + ' km:</h3>');
-      $('#webcams').append('<p><img src="' + web_image_url + '" /></p>');
-      $('#webcams').append('<p><a href="' + yr_url + '" target="_blank">' + decodeURI(yr_url) + '</a></p>');
+      $('#webcams').append('<div class="svv_image"><h4>' + distance + ' km</h4>'
+        + '<p><img src="' + web_image_url + '" /></p>'
+        + '<p><a href="' + yr_url + '" target="_blank">' + decodeURI(yr_url) + '</a></p></div>');
     })
 
   };
@@ -69,10 +69,10 @@ var VEIBLIKK_webcams = (function () {
   var get_cctvs_file_error = function () {
     alert("Får ikke hentet webkamera-info. Ukjent feil.");
   }
-  
+
 
   return {
-    get_cctvs_file, 
+    get_cctvs_file,
     import_route
   };
 
