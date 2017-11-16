@@ -38,7 +38,7 @@ var VEIBLIKK_address = (function () {
 
   var get_starting_point = function () {
     $.ajax({
-      url: 'http://www.norgeskart.no/ws/adr.py?' + encodeURI(start_address),
+      url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(start_address),
       success: get_starting_point_success,
       error: get_starting_point_error
     });
@@ -65,7 +65,7 @@ var VEIBLIKK_address = (function () {
 
   var get_destination_point = function () {
     $.ajax({
-      url: 'http://www.norgeskart.no/ws/adr.py?' + encodeURI(destination_address),
+      url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(destination_address),
       success: get_destination_point_success,
       error: get_destination_point_error
     });
