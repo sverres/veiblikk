@@ -9,7 +9,7 @@ map.on('load', function () {
     'source': {
       'type': 'raster',
       'tiles': [
-        'http://opencache.statkart.no/gatekeeper/gk/gk.open_wmts'
+        'https://opencache.statkart.no/gatekeeper/gk/gk.open_wmts'
         + '?Service=WMTS'
         + '&Version=1.0.0'
         + '&Request=GetTile'
