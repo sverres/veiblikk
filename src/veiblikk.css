@@ -6,63 +6,73 @@ body {
   font-size: 20px;
 }
 
-#logo {
-  height: 130px;
-  border: none;
-}
-
-header, 
-#address-dialog {
+header {
+  max-width: 65em;
   text-align: center;
   margin: auto;
 }
 
+#logo {
+  height: 130px;
+  margin: 0.01em;
+  border: none;
+}
+
+h1 {
+  margin: 0.1em;
+}
+
 h2 {
-  margin-top: -5px;
-  font-size: 20px;
+  font-size: 1em;
+  margin: 0.1em;
+}
+
+#address-dialog {
+  max-width: 65em;
+  text-align: right;
+  display: inline-block;
+  margin-right: 2.5em;
 }
 
 ul {
   list-style-type: none;
 }
 
-#address-dialog {
-  margin-right: 80px;
-  display: inline-block;
-  padding-bottom: 30px;
-  margin-top: -10px;
-}
-
 #start_address,
 #destination_address {
-  float: right;
-  margin-left: 10px;
-  font-size: 20px;
-  height: 30px;
-  width: 295px;
+  font-size: 1.2em;
+  margin-top: 0.7em;
+  margin-left: 0.1em;
+  padding: 0.1em;
 }
 
-.textbox {
-  margin-top: 10px;
-  padding-top: 10px;
+.address_input {
+  max-width: 50em;
 }
 
 input {
   border: 1px solid #e94e1b;
-  padding-left: 10px;
+  width: 15em;
 }
 
 #search_button {
   background-color: white;
   border: 1px solid #e94e1b;
-  font-family: 'Open Sans';
-  font-size: 20px;
-  width: 200px;
-  padding: 5px;
-  margin-top: 15px;
-  margin-left: 48px;
+  font-size: 1.2em;
+  margin-top: 0.7em;
+  padding: 0.1em;
+  max-width: 7em;
 }
 
+#map {
+  max-width: 1280px;
+  max-width: 90%;
+  height: 390px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin: auto;
+  border: solid 2px #e94e1b;
+}
 
 #webcams {
   max-width: 1280px;
