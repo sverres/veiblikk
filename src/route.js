@@ -9,6 +9,9 @@ var VEIBLIKK_route = (function () {
 
   var get_route = function () {
 
+    VEIBLIKK_messages.status_message(
+      'Finner reiserute . .', 'working_on_route');    
+
     $('#webcams').empty();
 
     if (map.getLayer('svv_route')) {
@@ -22,7 +25,8 @@ var VEIBLIKK_route = (function () {
       + ',' + VEIBLIKK_address.route_points['destination_y'];
 
     var route_API =
-      'https://www.vegvesen.no/ws/no/vegvesen/ruteplan/routingService_v1_0/routingService?'
+      'https://www.vegvesen.no/ws/no/vegvesen/'
+      + 'ruteplan/routingService_v1_0/routingService?'
       + 'stops=' + stops + '&'
       + 'returnDirections=false&'
       + 'returnGeometry=true&'
@@ -40,7 +44,9 @@ var VEIBLIKK_route = (function () {
   var get_route_success = function (directions_JSON) {
 
     if (directions_JSON == false) {
-      alert('Ruteberegningen gav ikke noe resultat. Ukjent feil. Avslutter.');
+      VEIBLIKK_messages.status_message(
+        'Ruteberegningen gav ikke noe resultat. Ukjent feil. Avslutter.',
+        'error');      
       return false;
     };
 
@@ -51,8 +57,6 @@ var VEIBLIKK_route = (function () {
       .each(function (index, vertice) {
         vertices.push(proj4_25833_to_4326(vertice[0], vertice[1]));
       });
-
-    console.log('vertices.length: ' + vertices.length);
 
     var route = turf.lineString(vertices);
     map.addLayer({
@@ -84,10 +88,12 @@ var VEIBLIKK_route = (function () {
 
 
   var get_route_error = function () {
-    alert("Ukjent feil i ruteberegningen. Avslutter.");
+    VEIBLIKK_messages.status_message(
+      'Ukjent feil i ruteberegningen. Avslutter.',
+      'error');   
   }
 
 
-  return { get_route };
+  return { get_route: get_route };
 
 }());

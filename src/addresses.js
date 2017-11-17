@@ -37,6 +37,7 @@ var VEIBLIKK_address = (function () {
 
 
   var get_starting_point = function () {
+    VEIBLIKK_messages.status_message('Finner fra-adresse . .', 'working_on_addresses');
     $.ajax({
       url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(start_address),
       success: get_starting_point_success,
@@ -48,7 +49,8 @@ var VEIBLIKK_address = (function () {
   var get_starting_point_success = function (start_address_JSON) {
     var start_point = parse_address_JSON(start_address_JSON);
     if (start_point == false) {
-      alert('Finner ikke start-adresse. Skrives som "gatenavn husnummer, sted"');
+      VEIBLIKK_messages.status_message(
+        'Finner ikke fra-adresse (gatenavn husnummer, sted)', 'error');
       return false;
     } else {
       route_points['start_x'] = start_point[0];
@@ -59,11 +61,12 @@ var VEIBLIKK_address = (function () {
 
 
   var get_starting_point_error = function () {
-    alert("Ukjent feil i fra-adresse-søk");
+    VEIBLIKK_messages.status_message('Ukjent feil i fra-adresse-søk', 'error');
   }
 
 
   var get_destination_point = function () {
+    VEIBLIKK_messages.status_message('Finner til-adresse . .', 'working_on_addresses');
     $.ajax({
       url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(destination_address),
       success: get_destination_point_success,
@@ -75,7 +78,8 @@ var VEIBLIKK_address = (function () {
   var get_destination_point_success = function (destination_address_JSON) {
     var destination_point = parse_address_JSON(destination_address_JSON);
     if (destination_point == false) {
-      alert('Finner ikke til-adresse. Skrives som "gatenavn husnummer, sted"');
+      VEIBLIKK_messages.status_message(
+        'Finner ikke til-adresse (gatenavn husnummer, sted)', 'error');
       return false;
     } else {
       route_points['destination_x'] = destination_point[0];
@@ -86,10 +90,10 @@ var VEIBLIKK_address = (function () {
 
 
   var get_destination_point_error = function () {
-    alert("Ukjent feil i til-adresse-søk");
+    VEIBLIKK_messages.status_message('Ukjent feil i til-adresse-søk', 'error');
   }
 
 
-  return { route_points };
+  return { route_points: route_points };
 
 }());
