@@ -52,9 +52,6 @@ var VEIBLIKK_route = (function () {
       return false;
     };
 
-    VEIBLIKK_messages.status_message(
-      'Behandler ruteforslag . .', 'working_on_route');
-
     var directions = $.parseJSON(directions_JSON);
 
     var vertices = [];
@@ -63,7 +60,7 @@ var VEIBLIKK_route = (function () {
         vertices.push(proj4_25833_to_4326(vertice[0], vertice[1]));
       });
 
-    var route = turf.lineString(vertices);
+    route = turf.lineString(vertices);
     map.addLayer({
       'id': 'svv_route',
       'type': 'line',
@@ -86,8 +83,8 @@ var VEIBLIKK_route = (function () {
       'animate': false
     });
 
-    VEIBLIKK_webcams.import_route(route);
-    VEIBLIKK_webcams.get_cctvs_file();
+    // Short timeout to avoid map freeze
+    setTimeout(get_webcams, 500);
 
   };
 
@@ -97,6 +94,12 @@ var VEIBLIKK_route = (function () {
       'Feil i ruteberegningen: '
       + ajax_object.statusText + ' '
       + (ajax_object.errorThrown || ''), 'error');
+  };
+
+
+  var get_webcams = function () {
+    VEIBLIKK_webcams.import_route(route);
+    VEIBLIKK_webcams.get_cctvs_file();
   };
 
 
