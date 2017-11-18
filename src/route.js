@@ -34,7 +34,9 @@ var VEIBLIKK_route = (function () {
       + 'format=json';
 
     $.ajax({
+      type: 'POST',
       url: route_API,
+      cache: false,
       success: get_route_success,
       error: get_route_error
     });
