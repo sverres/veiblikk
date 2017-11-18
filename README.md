@@ -8,7 +8,7 @@ A prototype was built on [#hack4no 2017](http://www.hack4.no/).
 ## Contributors
 
 - [Sverre Stikbakke](https://github.com/sverres)
-- [Vegard stikbakke](https://github.com/vegarsti)
+- [Vegard Stikbakke](https://github.com/vegarsti)
 
 ## API's and javascript librarys
 

@@ -97,8 +97,16 @@ input {
   border: solid 2px #e94e1b;
 }
 
+#about_link {
+  color: #333333;
+  font-size: 0.8em;
+  position: fixed;
+  top: 0.5em;
+  right: 5%;
+}
+
 #about {
-  width: 15em;
+  width: 25em;
   float: right;
   padding: 1em;
   font-size: 0.7em;
@@ -107,10 +115,16 @@ input {
   position: fixed;
   top: 1em;
   right: 1em;
+  //visibility: hidden;
 }
 
 #about a {
   color: #e94e1b
+}
+
+#about h1 {
+  color: white;
+  font-size: 2em;
 }
 
 #webcams {
