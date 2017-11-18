@@ -11,7 +11,7 @@ var VEIBLIKK_address = (function () {
   var destination_address = null;
 
 
-  $('#search_button').click(function () { 
+  $('#search_button').click(function () {
     start_address = $('#start_address').val();
     destination_address = $('#destination_address').val();
     get_starting_point();
@@ -41,7 +41,7 @@ var VEIBLIKK_address = (function () {
     $.ajax({
       type: 'POST',
       url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(start_address),
-      cache: false,
+      timeout: 10000, // ms
       success: get_starting_point_success,
       error: get_starting_point_error
     });
@@ -49,7 +49,6 @@ var VEIBLIKK_address = (function () {
 
 
   var get_starting_point_success = function (start_address_JSON) {
-    console.log(start_address_JSON);
     var start_point = parse_address_JSON(start_address_JSON);
     if (start_point == false) {
       VEIBLIKK_messages.status_message(
@@ -63,9 +62,12 @@ var VEIBLIKK_address = (function () {
   }
 
 
-  var get_starting_point_error = function () {
-    VEIBLIKK_messages.status_message('Ukjent feil i fra-adresse-søk', 'error');
-  }
+  var get_starting_point_error = function (ajax_object) {
+    VEIBLIKK_messages.status_message(
+      'Feil i fra-adresse-søk: '
+      + ajax_object.statusText + ' '
+      + (ajax_object.errorThrown || ''), 'error');
+    };
 
 
   var get_destination_point = function () {
@@ -73,7 +75,7 @@ var VEIBLIKK_address = (function () {
     $.ajax({
       type: 'POST',
       url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(destination_address),
-      cache: false,
+      timeout: 10000, // ms
       success: get_destination_point_success,
       error: get_destination_point_error
     });
@@ -94,9 +96,12 @@ var VEIBLIKK_address = (function () {
   };
 
 
-  var get_destination_point_error = function () {
-    VEIBLIKK_messages.status_message('Ukjent feil i til-adresse-søk', 'error');
-  }
+  var get_destination_point_error = function (ajax_object) {
+    VEIBLIKK_messages.status_message(
+      'Feil i til-adresse-søk: '
+      + ajax_object.statusText + ' '
+      + (ajax_object.errorThrown || ''), 'error');
+  };
 
 
   return { route_points: route_points };

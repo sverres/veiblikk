@@ -10,7 +10,7 @@ var VEIBLIKK_route = (function () {
   var get_route = function () {
 
     VEIBLIKK_messages.status_message(
-      'Finner reiserute . .', 'working_on_route');    
+      'Finner reiserute . .', 'working_on_route');
 
     $('#webcams').empty();
 
@@ -36,7 +36,7 @@ var VEIBLIKK_route = (function () {
     $.ajax({
       type: 'POST',
       url: route_API,
-      cache: false,
+      timeout: 20000, // ms
       success: get_route_success,
       error: get_route_error
     });
@@ -48,9 +48,12 @@ var VEIBLIKK_route = (function () {
     if (directions_JSON == false) {
       VEIBLIKK_messages.status_message(
         'Ruteberegningen gav ikke noe resultat. Ukjent feil. Avslutter.',
-        'error');      
+        'error');
       return false;
     };
+
+    VEIBLIKK_messages.status_message(
+      'Behandler ruteforslag . .', 'working_on_route');
 
     var directions = $.parseJSON(directions_JSON);
 
@@ -89,11 +92,12 @@ var VEIBLIKK_route = (function () {
   };
 
 
-  var get_route_error = function () {
+  var get_route_error = function (ajax_object) {
     VEIBLIKK_messages.status_message(
-      'Ukjent feil i ruteberegningen. Avslutter.',
-      'error');   
-  }
+      'Feil i ruteberegningen: '
+      + ajax_object.statusText + ' '
+      + (ajax_object.errorThrown || ''), 'error');
+  };
 
 
   return { get_route: get_route };
