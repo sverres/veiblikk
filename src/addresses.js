@@ -88,6 +88,12 @@ var VEIBLIKK_address = (function () {
       VEIBLIKK_messages.status_message(
         'Finner ikke til-adresse (gatenavn husnummer, sted)', 'error');
       return false;
+    } else if (turf.booleanEqual(
+      turf.point(destination_point), 
+      turf.point([route_points['start_x'], route_points['start_y']]))) {
+      VEIBLIKK_messages.status_message(
+        'Fra- og til-adresse gir samme resultat', 'error');
+      return false;
     } else {
       route_points['destination_x'] = destination_point[0];
       route_points['destination_y'] = destination_point[1];
