@@ -72,11 +72,20 @@ input {
   font-size: 0.8em;
 }
 
-.idle {
+#travel_data {
+  max-width: 802px; 
+  margin: auto;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.idle,
+.no_data {
   background-color: white;
 }
 
-.error {
+.error,
+.show_data {
   background-color: #e94e1b;;
 }
 
@@ -90,9 +99,8 @@ input {
 }
 
 #map {
-  max-width: 1280px;
-  max-width: 90%;
-  height: 390px;
+  max-width: 798px;
+  height: 370px;
   margin-top: 30px;
   margin-bottom: 30px;
   margin: auto;
@@ -138,7 +146,7 @@ input {
 }
 
 #webcams {
-  max-width: 1280px;
+  max-width: 802px;
   margin: auto;
   margin-top: 15px;
 }

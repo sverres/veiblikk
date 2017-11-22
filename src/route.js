@@ -12,6 +12,8 @@ var VEIBLIKK_route = (function () {
     VEIBLIKK_messages.status_message(
       'Finner reiserute . .', 'working_on_route');
 
+    VEIBLIKK_messages.travel_data_message('&nbsp;', 'no_data');
+
     $('#webcams').empty();
 
     if (map.getLayer('svv_route')) {
@@ -82,6 +84,24 @@ var VEIBLIKK_route = (function () {
       'padding': 25,
       'animate': false
     });
+
+    var travel_meters = directions.routes.features[0].attributes.Total_Meters;
+    var travel_km = (parseFloat(travel_meters) * 0.001).toFixed(1);
+
+    var travel_minutes = directions.routes.features[0].attributes.Total_Minutes;
+    var hours = Math.floor(parseFloat(travel_minutes) / 60);
+    var minutes = (parseFloat(travel_minutes) % 60).toFixed(0);
+
+    if (minutes == 60) {
+      minutes = 0;
+      hours = hours + 1;
+    };
+
+    var travel_data = hours + ' t ' + minutes + ' min'
+      + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+      + travel_km + ' km';
+
+    VEIBLIKK_messages.travel_data_message(travel_data, 'show_data');
 
     // Short timeout to avoid map freeze
     setTimeout(get_webcams, 500);
