@@ -115,15 +115,21 @@
     <p>For mer vei-informasjon, se
       <a href="https://www.vegvesen.no/trafikkbeta">trafikkbeta</a>
     </p>
-    <p>For informasjon om tjenesten, se
+    <p>For mer informasjon om tjenesten, se
       <a href="https://github.com/sverres/veiblikk">github.com/sverres/veiblikk</a>
     </p>
   </aside>
   <section id='map'></section>
   <section id='webcams'></section>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script>
+    $("#about_link").click(function () {
+      $("#about").css('visibility', 'visible')
+    });
+    $("#about").click(function () {
+      $("#about").css('visibility', 'hidden')
+    });
     mapboxgl.accessToken = 'pk.eyJ1Ijoic3ZlcnJlc3QiLCJhIjoiY2l1Y2VqcmRzMDAxMTJ0cGl6c3ZteGozMyJ9.ieY0kEubUisIWVVwjZiuBg';
     var map = new mapboxgl.Map({
       container: 'map',
@@ -131,10 +137,6 @@
       center: [10, 60],
       zoom: 5,
     });
-    $("#about_link").click(function(){
-      $("#about").css('visibility','visible')});
-    $("#about").click(function(){
-      $("#about").css('visibility','hidden')});
     map.setMaxZoom(18);
   </script>
   <script src="wmts.js" type="text/javascript" charset="utf-8"></script>
