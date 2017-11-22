@@ -24,6 +24,7 @@ h1 {
 
 h2 {
   font-size: 1em;
+  font-weight: 400;
   margin: 0.1em;
 }
 
@@ -63,6 +64,7 @@ input {
   margin-top: 0.7em;
   padding: 0.1em;
   max-width: 7em;
+  cursor: pointer;
 }
 
 #status_message {
@@ -98,15 +100,16 @@ input {
 }
 
 #about_link {
-  color: #333333;
   font-size: 0.8em;
+  font-weight: 400;
   position: fixed;
   top: 0.5em;
   right: 5%;
+  cursor: pointer;
 }
 
 #about {
-  width: 25em;
+  width: 20em;
   float: right;
   padding: 1em;
   font-size: 0.7em;
@@ -115,7 +118,13 @@ input {
   position: fixed;
   top: 1em;
   right: 1em;
-  //visibility: hidden;
+  visibility: hidden;
+}
+
+#about nav {
+  float: right;
+  color: #e94e1b;
+  cursor: pointer;
 }
 
 #about a {
@@ -124,7 +133,8 @@ input {
 
 #about h1 {
   color: white;
-  font-size: 2em;
+  font-size: 1.5em;
+  font-weight: 300;
 }
 
 #webcams {

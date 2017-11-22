@@ -15,6 +15,9 @@
       #logo {
         height: 100px;
       }
+      #about_link {
+        visibility: hidden;
+      }
       #address-dialog {
         margin-right: 0.1em;
       }
@@ -41,6 +44,9 @@
     @media only screen and (min-width: 320px) and (max-height: 568px) {
       #logo {
         height: 100px;
+      }
+      #about_link {
+        visibility: hidden;
       }
       #address-dialog {
         margin-right: 0.1em;
@@ -97,6 +103,7 @@
     </section>
   </header>
   <aside id="about">
+    <nav>x</nav>
     <h1>om Veiblikk</h1>
     <p>Ruteplanlegging med webkamerabilder</p>
     <p>Bygget med tjenester fra
@@ -115,6 +122,7 @@
   <section id='map'></section>
   <section id='webcams'></section>
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoic3ZlcnJlc3QiLCJhIjoiY2l1Y2VqcmRzMDAxMTJ0cGl6c3ZteGozMyJ9.ieY0kEubUisIWVVwjZiuBg';
     var map = new mapboxgl.Map({
@@ -123,10 +131,13 @@
       center: [10, 60],
       zoom: 5,
     });
+    $("#about_link").click(function(){
+      $("#about").css('visibility','visible')});
+    $("#about").click(function(){
+      $("#about").css('visibility','hidden')});
     map.setMaxZoom(18);
   </script>
   <script src="wmts.js" type="text/javascript" charset="utf-8"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://npmcdn.com/@turf/turf@5.0.4/turf.min.js" type="text/javascript"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js" type="text/javascript"></script>
   <script src="https://epsg.io/25832.js" type="text/javascript"></script>

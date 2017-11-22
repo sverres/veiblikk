@@ -3,7 +3,8 @@
 Route planning web application with webcam images along the route.
 A prototype was built on [#hack4no 2017](http://www.hack4.no/).
 
-- [Presenting prototype](https://www.flickr.com/photos/statenskartverk/38011135581/in/album-72157688079862294/)
+- [Application Overview - in norwegian](http://folk.ntnu.no/sverrsti/GEO2311-H2017/webapplikasjon-eksempel.html)
+- [Presenting prototype at #hack4no](https://www.flickr.com/photos/statenskartverk/38011135581/in/album-72157688079862294/)
 
 ## Contributors
 
