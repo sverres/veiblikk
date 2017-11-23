@@ -35,9 +35,12 @@ var VEIBLIKK_webcams = (function () {
       var cctv_lon = parseFloat(xml_element.find("longitude").text());
       var cctv_lat = parseFloat(xml_element.find("latitude").text());
       var cctv_point = turf.point([cctv_lon, cctv_lat]);
-      if (turf.inside(cctv_point, route_buffer)) {
+      if (turf.booleanPointInPolygon(cctv_point, route_buffer)) {
 
-        var cctv_snapped = turf.pointOnLine(route, cctv_point, option_units_kilometers);
+        var cctv_snapped = turf.nearestPointOnLine(
+          route, 
+          cctv_point, 
+          option_units_kilometers);
 
         cctv_snapped["properties"]["stillImageUrl"]
           = xml_element.find("stillImageUrl").find("urlLinkAddress").text();
@@ -63,9 +66,12 @@ var VEIBLIKK_webcams = (function () {
       var distance = parseFloat(this["properties"]["location"]).toFixed(0);
       var web_image_url = this["properties"]["stillImageUrl"];
       var yr_url = this["properties"]["urlLinkDescription"];
-      $('#webcams').append('<div class="svv_image"><h4>' + distance + ' km</h4>'
+      
+      $('#webcams').append(
+        '<div class="svv_image"><h4>' + distance + ' km</h4>'
         + '<p><img src="' + web_image_url + '" /></p>'
-        + '<p><a href="' + yr_url + '" target="_blank">' + decodeURI(yr_url) + '</a></p></div>');
+        + '<p><a href="' + yr_url + '" target="_blank">'
+        + decodeURI(yr_url) + '</a></p></div>');
     })
 
   };
