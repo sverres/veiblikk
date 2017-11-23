@@ -72,7 +72,7 @@ var VEIBLIKK_webcams = (function () {
         + '<p><img src="' + web_image_url + '" /></p>'
         + '<p><a href="' + yr_url + '" target="_blank">'
         + decodeURI(yr_url) + '</a></p></div>');
-    })
+    });
 
   };
 
@@ -82,7 +82,7 @@ var VEIBLIKK_webcams = (function () {
       '#status_message',
       'Får ikke hentet webkamera-info. Ukjent feil.',
       'error');
-  }
+  };
 
 
   return {
