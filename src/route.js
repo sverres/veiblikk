@@ -9,10 +9,15 @@ var VEIBLIKK_route = (function () {
 
   var get_route = function () {
 
-    VEIBLIKK_messages.status_message(
-      'Finner reiserute . .', 'working_on_route');
+    VEIBLIKK_messages.ux_message(
+      '#status_message',
+      'Finner reiserute . .',
+      'working_on_route');
 
-    VEIBLIKK_messages.travel_data_message('&nbsp;', 'no_data');
+    VEIBLIKK_messages.ux_message(
+      '#travel_data',
+      '&nbsp;',
+      'no_data');
 
     $('#webcams').empty();
 
@@ -48,7 +53,8 @@ var VEIBLIKK_route = (function () {
   var get_route_success = function (directions_JSON) {
 
     if (directions_JSON == false) {
-      VEIBLIKK_messages.status_message(
+      VEIBLIKK_messages.ux_message(
+        '#status_message',
         'Ruteberegningen gav ikke noe resultat. Ukjent feil. Avslutter.',
         'error');
       return false;
@@ -101,7 +107,10 @@ var VEIBLIKK_route = (function () {
       + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
       + travel_km + ' km';
 
-    VEIBLIKK_messages.travel_data_message(travel_data, 'show_data');
+    VEIBLIKK_messages.ux_message(
+      '#travel_data',
+      travel_data,
+      'show_data');
 
     // Short timeout to avoid map freeze
     setTimeout(get_webcams, 500);
@@ -110,10 +119,12 @@ var VEIBLIKK_route = (function () {
 
 
   var get_route_error = function (ajax_object) {
-    VEIBLIKK_messages.status_message(
+    VEIBLIKK_messages.ux_message(
+      '#status_message',
       'Feil i ruteberegningen: '
       + ajax_object.statusText + ' '
-      + (ajax_object.errorThrown || ''), 'error');
+      + (ajax_object.errorThrown || ''),
+      'error');
   };
 
 

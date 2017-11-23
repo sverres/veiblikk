@@ -37,7 +37,10 @@ var VEIBLIKK_address = (function () {
 
 
   var get_starting_point = function () {
-    VEIBLIKK_messages.status_message('Finner fra-adresse . .', 'working_on_addresses');
+    VEIBLIKK_messages.ux_message(
+      '#status_message',
+      'Finner fra-adresse . .',
+      'working_on_addresses');
     $.ajax({
       type: 'POST',
       url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(start_address),
@@ -51,8 +54,10 @@ var VEIBLIKK_address = (function () {
   var get_starting_point_success = function (start_address_JSON) {
     var start_point = parse_address_JSON(start_address_JSON);
     if (start_point == false) {
-      VEIBLIKK_messages.status_message(
-        'Finner ikke fra-adresse (gatenavn husnummer, sted)', 'error');
+      VEIBLIKK_messages.ux_message(
+        '#status_message',
+        'Finner ikke fra-adresse (gatenavn husnummer, sted)',
+        'error');
       return false;
     } else {
       route_points['start_x'] = start_point[0];
@@ -63,15 +68,20 @@ var VEIBLIKK_address = (function () {
 
 
   var get_starting_point_error = function (ajax_object) {
-    VEIBLIKK_messages.status_message(
+    VEIBLIKK_messages.ux_message(
+      '#status_message',
       'Feil i fra-adresse-søk: '
       + ajax_object.statusText + ' '
-      + (ajax_object.errorThrown || ''), 'error');
-    };
+      + (ajax_object.errorThrown || ''),
+      'error');
+  };
 
 
   var get_destination_point = function () {
-    VEIBLIKK_messages.status_message('Finner til-adresse . .', 'working_on_addresses');
+    VEIBLIKK_messages.ux_message(
+      '#status_message',
+      'Finner til-adresse . .',
+      'working_on_addresses');
     $.ajax({
       type: 'POST',
       url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(destination_address),
@@ -85,14 +95,18 @@ var VEIBLIKK_address = (function () {
   var get_destination_point_success = function (destination_address_JSON) {
     var destination_point = parse_address_JSON(destination_address_JSON);
     if (destination_point == false) {
-      VEIBLIKK_messages.status_message(
-        'Finner ikke til-adresse (gatenavn husnummer, sted)', 'error');
+      VEIBLIKK_messages.ux_message(
+        '#status_message',
+        'Finner ikke til-adresse (gatenavn husnummer, sted)',
+        'error');
       return false;
     } else if (turf.booleanEqual(
-      turf.point(destination_point), 
+      turf.point(destination_point),
       turf.point([route_points['start_x'], route_points['start_y']]))) {
-      VEIBLIKK_messages.status_message(
-        'Fra- og til-adresse gir samme resultat', 'error');
+      VEIBLIKK_messages.ux_message(
+        '#status_message',
+        'Fra- og til-adresse gir samme resultat',
+        'error');
       return false;
     } else {
       route_points['destination_x'] = destination_point[0];
@@ -103,10 +117,12 @@ var VEIBLIKK_address = (function () {
 
 
   var get_destination_point_error = function (ajax_object) {
-    VEIBLIKK_messages.status_message(
+    VEIBLIKK_messages.ux_message(
+      '#status_message',
       'Feil i til-adresse-søk: '
       + ajax_object.statusText + ' '
-      + (ajax_object.errorThrown || ''), 'error');
+      + (ajax_object.errorThrown || ''),
+      'error');
   };
 
 

@@ -9,8 +9,10 @@ var VEIBLIKK_webcams = (function () {
 
 
   var get_cctvs_file = function () {
-    VEIBLIKK_messages.status_message(
-      'Finner webkamerabilder . .', 'working_on_images');
+    VEIBLIKK_messages.ux_message(
+      '#status_message',
+      'Finner webkamerabilder. Dette kan ta litt tid . .',
+      'working_on_images');
     $.ajax({
       url: 'GetCCTVSiteTable.xml',
       success: get_cctvs_file_success,
@@ -52,8 +54,10 @@ var VEIBLIKK_webcams = (function () {
         - parseFloat(distance_2["properties"]["location"]);
     });
 
-    VEIBLIKK_messages.status_message(
-      'Fant ' + cctv_locations.length + ' webkamerabilder', 'idle');
+    VEIBLIKK_messages.ux_message(
+      '#status_message',
+      'Fant ' + cctv_locations.length + ' webkamerabilder',
+      'idle');
 
     $(cctv_locations).each(function () {
       var distance = parseFloat(this["properties"]["location"]).toFixed(0);
@@ -68,8 +72,10 @@ var VEIBLIKK_webcams = (function () {
 
 
   var get_cctvs_file_error = function () {
-    VEIBLIKK_messages.status_message(
-      'Får ikke hentet webkamera-info. Ukjent feil.', 'error');
+    VEIBLIKK_messages.ux_message(
+      '#status_message',
+      'Får ikke hentet webkamera-info. Ukjent feil.',
+      'error');
   }
 
 
