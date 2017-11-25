@@ -23,10 +23,10 @@ var VEIBLIKK_webcams = (function () {
 
   var get_cctvs_file_success = function (cctv_xml) {
 
-    var t0 = performance.now();
-
     var option_units_meters = { units: 'meters' };
     var option_units_kilometers = { units: 'kilometers' };
+    
+    var buffer_width = 50;
 
     // Split route in short segments to increase
     // performance in PointInPolygon function.
@@ -43,7 +43,10 @@ var VEIBLIKK_webcams = (function () {
 
     $.each(route_segments.features, function (index, route_segment) {
 
-      var route_buffer = turf.buffer(route_segment, 50, option_units_meters);
+      var route_buffer = turf.buffer(
+        route_segment,
+        buffer_width,
+        option_units_meters);
       
       $(cctv_xml).find("cctvCameraMetadataRecord").each(function () {
         var xml_element = $(this);
@@ -72,9 +75,6 @@ var VEIBLIKK_webcams = (function () {
       return parseFloat(distance_1["properties"]["location"])
         - parseFloat(distance_2["properties"]["location"]);
     });
-
-    var t1 = performance.now();
-    console.log('Webcam location time: ' + (t1 - t0) + ' milliseconds.');
 
     VEIBLIKK_messages.ux_message(
       '#status_message',
