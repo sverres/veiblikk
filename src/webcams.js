@@ -28,24 +28,23 @@ var VEIBLIKK_webcams = (function () {
     var option_units_meters = { units: 'meters' };
     var option_units_kilometers = { units: 'kilometers' };
 
-    var route_segment_1 = turf.lineSliceAlong(route, 0, 150, {units: 'kilometers'});
-    var route_segment_2 = turf.lineSliceAlong(route, 150, 300, {units: 'kilometers'});
-    var route_segment_3 = turf.lineSliceAlong(route, 300, 450, {units: 'kilometers'});
-    var route_segment_4 = turf.lineSliceAlong(route, 450, 600, {units: 'kilometers'});
-    var route_segment_5 = turf.lineSliceAlong(route, 600, 9999, {units: 'kilometers'});
-    
-    var route_buffer_1 = turf.buffer(route_segment_1, 50, option_units_meters);
-    var route_buffer_2 = turf.buffer(route_segment_2, 50, option_units_meters);
-    var route_buffer_3 = turf.buffer(route_segment_3, 50, option_units_meters);
-    var route_buffer_4 = turf.buffer(route_segment_4, 50, option_units_meters);
-    var route_buffer_5 = turf.buffer(route_segment_5, 50, option_units_meters);
+    // Split route in short segments to increase
+    // performance in PointInPolygon function.
+    // 30 km segments may be a sweet spot.
 
-    var buffer_collection = [route_buffer_1, route_buffer_2, 
-      route_buffer_3, route_buffer_4, route_buffer_5];
+    var segment_lenght = 30;
+
+    var route_segments = turf.lineChunk(
+      route,
+      segment_lenght,
+      option_units_kilometers);
 
     var cctv_locations = [];
 
-    $.each(buffer_collection, function (index, route_buffer) {
+    $.each(route_segments.features, function (index, route_segment) {
+
+      var route_buffer = turf.buffer(route_segment, 50, option_units_meters);
+      
       $(cctv_xml).find("cctvCameraMetadataRecord").each(function () {
         var xml_element = $(this);
         var cctv_lon = parseFloat(xml_element.find("longitude").text());
@@ -75,7 +74,7 @@ var VEIBLIKK_webcams = (function () {
     });
 
     var t1 = performance.now();
-    console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
+    console.log('Webcam location time: ' + (t1 - t0) + ' milliseconds.');
 
     VEIBLIKK_messages.ux_message(
       '#status_message',
@@ -86,7 +85,7 @@ var VEIBLIKK_webcams = (function () {
       var distance = parseFloat(this["properties"]["location"]).toFixed(0);
       var web_image_url = this["properties"]["stillImageUrl"];
       var yr_url = this["properties"]["urlLinkDescription"];
-      
+
       $('#webcams').append(
         '<div class="svv_image"><h4>' + distance + ' km</h4>'
         + '<p><img src="' + web_image_url + '" /></p>'
