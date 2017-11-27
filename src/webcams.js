@@ -23,6 +23,8 @@ var VEIBLIKK_webcams = (function () {
 
   var get_cctvs_file_success = function (cctv_xml) {
 
+   var t0 = performance.now();
+
     var option_units_meters = { units: 'meters' };
     var option_units_kilometers = { units: 'kilometers' };
     
@@ -71,10 +73,17 @@ var VEIBLIKK_webcams = (function () {
       });
     });
 
+    var t1 = performance.now();
+    
     cctv_locations.sort(function (distance_1, distance_2) {
       return parseFloat(distance_1["properties"]["location"])
         - parseFloat(distance_2["properties"]["location"]);
     });
+
+    var t2 = performance.now();
+    console.log("Webcam selection: " + parseFloat(t1 - t0).toFixed(2) + " ms");
+    console.log("Webcam sorting:   " + parseFloat(t2 - t1).toFixed(2) + " ms");
+    console.log("Ratio sorting/total time: " + parseFloat((t2 - t1)/(t2 - t0)).toFixed(2));
 
     VEIBLIKK_messages.ux_message(
       '#status_message',
