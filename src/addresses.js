@@ -41,13 +41,14 @@ var VEIBLIKK_address = (function () {
       '#status_message',
       'Finner fra-adresse . .',
       'working_on_addresses');
+
     $.ajax({
-      type: 'POST',
       url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(start_address),
-      timeout: 10000, // ms
-      success: get_starting_point_success,
-      error: get_starting_point_error
-    });
+      type: 'POST',
+      timeout: 10000
+    })
+      .done(get_starting_point_success)
+      .fail(get_starting_point_error);
   };
 
 
@@ -63,8 +64,8 @@ var VEIBLIKK_address = (function () {
       route_points['start_x'] = start_point[0];
       route_points['start_y'] = start_point[1];
       get_destination_point();
-    }
-  }
+    };
+  };
 
 
   var get_starting_point_error = function (ajax_object) {
@@ -82,13 +83,14 @@ var VEIBLIKK_address = (function () {
       '#status_message',
       'Finner til-adresse . .',
       'working_on_addresses');
+
     $.ajax({
-      type: 'POST',
       url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(destination_address),
-      timeout: 10000, // ms
-      success: get_destination_point_success,
-      error: get_destination_point_error
-    });
+      type: 'POST',
+      timeout: 10000
+    })
+      .done(get_destination_point_success)
+      .fail(get_destination_point_error);
   };
 
 

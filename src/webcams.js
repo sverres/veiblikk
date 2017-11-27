@@ -13,11 +13,10 @@ var VEIBLIKK_webcams = (function () {
       '#status_message',
       'Finner webkamerabilder. Dette kan ta litt tid . .',
       'working_on_images');
-    $.ajax({
-      url: 'GetCCTVSiteTable.xml',
-      success: get_cctvs_file_success,
-      error: get_cctvs_file_error
-    });
+
+    $.get('GetCCTVSiteTable.xml')
+      .done(get_cctvs_file_success)
+      .fail(get_cctvs_file_error);
   };
 
 
@@ -25,7 +24,7 @@ var VEIBLIKK_webcams = (function () {
 
     var option_units_meters = { units: 'meters' };
     var option_units_kilometers = { units: 'kilometers' };
-    
+
     var buffer_width = 50;
 
     // Split route in short segments to increase
@@ -47,7 +46,7 @@ var VEIBLIKK_webcams = (function () {
         route_segment,
         buffer_width,
         option_units_meters);
-      
+
       $(cctv_xml).find("cctvCameraMetadataRecord").each(function () {
         var xml_element = $(this);
         var cctv_lon = parseFloat(xml_element.find("longitude").text());

@@ -41,12 +41,12 @@ var VEIBLIKK_route = (function () {
       + 'format=json';
 
     $.ajax({
-      type: 'POST',
       url: route_API,
-      timeout: 20000, // ms
-      success: get_route_success,
-      error: get_route_error
-    });
+      type: 'POST',
+      timeout: 20000
+    })
+      .done(get_route_success)
+      .fail(get_route_error);
   };
 
 
