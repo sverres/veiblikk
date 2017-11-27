@@ -45,12 +45,12 @@ var VEIBLIKK_route = (function () {
       type: 'POST',
       timeout: 20000
     })
-      .done(get_route_success)
+      .done(display_route_data)
       .fail(get_route_error);
   };
 
 
-  var get_route_success = function (directions_JSON) {
+  var display_route_data = function (directions_JSON) {
 
     if (directions_JSON == false) {
       VEIBLIKK_messages.ux_message(

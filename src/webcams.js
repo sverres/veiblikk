@@ -15,21 +15,23 @@ var VEIBLIKK_webcams = (function () {
       'working_on_images');
 
     $.get('GetCCTVSiteTable.xml')
-      .done(get_cctvs_file_success)
+      .done(get_cctv_locations)
       .fail(get_cctvs_file_error);
   };
 
 
-  var get_cctvs_file_success = function (cctv_xml) {
+  var get_cctv_locations = function (cctv_xml) {
 
     var option_units_meters = { units: 'meters' };
     var option_units_kilometers = { units: 'kilometers' };
 
     var buffer_width = 50;
 
-    // Split route in short segments to increase
-    // performance in PointInPolygon function.
-    // 30 km segments may be a sweet spot.
+    /** 
+     * Split route in short segments to increase
+     * performance in PointInPolygon function.
+     * 30 km segments may be a sweet spot.
+     */
 
     var segment_lenght = 30;
 
@@ -59,7 +61,7 @@ var VEIBLIKK_webcams = (function () {
             cctv_point,
             option_units_kilometers);
 
-          cctv_snapped["properties"]["stillImageUrl"]
+          cctv_snapped["properties"]["stillImageUrl"] 
             = xml_element.find("stillImageUrl").find("urlLinkAddress").text();
           cctv_snapped["properties"]["urlLinkDescription"]
             = xml_element.find("stillImageUrl").find("urlLinkDescription")

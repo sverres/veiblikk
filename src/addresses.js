@@ -47,12 +47,12 @@ var VEIBLIKK_address = (function () {
       type: 'POST',
       timeout: 10000
     })
-      .done(get_starting_point_success)
+      .done(store_starting_point)
       .fail(get_starting_point_error);
   };
 
 
-  var get_starting_point_success = function (start_address_JSON) {
+  var store_starting_point = function (start_address_JSON) {
     var start_point = parse_address_JSON(start_address_JSON);
     if (start_point == false) {
       VEIBLIKK_messages.ux_message(
@@ -89,12 +89,12 @@ var VEIBLIKK_address = (function () {
       type: 'POST',
       timeout: 10000
     })
-      .done(get_destination_point_success)
+      .done(store_destination_point)
       .fail(get_destination_point_error);
   };
 
 
-  var get_destination_point_success = function (destination_address_JSON) {
+  var store_destination_point = function (destination_address_JSON) {
     var destination_point = parse_address_JSON(destination_address_JSON);
     if (destination_point == false) {
       VEIBLIKK_messages.ux_message(
