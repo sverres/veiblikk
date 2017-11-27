@@ -19,7 +19,7 @@ var VEIBLIKK_route = (function () {
   var route = null;
 
   var proj4_25833_to_4326 = function (x, y) {
-    return proj4("EPSG:25833", "EPSG:4326", [x, y]);
+    return proj4('EPSG:25833', 'EPSG:4326', [x, y]);
   };
 
 
