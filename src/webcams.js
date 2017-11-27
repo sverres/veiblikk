@@ -1,3 +1,22 @@
+/**
+ * Module VEIBLIKK_webcams
+ * 
+ * Gets webcam locations along route.
+ * 
+ * Makes buffers on route segments and selects 
+ * webcam locations by pointInPolygon function.
+ * 
+ * Locations are snapped to route linestring by
+ * nearestPointOnLine function, and sorted 
+ * by distance from startpoint.
+ * 
+ * Webcam location info is in static XML file.
+ * 
+ * http://github.com/sverres/veiblikk
+ * 
+ * sverre.stikbakke 27.11.2017
+ */
+
 var VEIBLIKK_webcams = (function () {
 
   var route = null;

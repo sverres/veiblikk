@@ -1,3 +1,17 @@
+/**
+ * Module VEIBLIKK_address
+ * 
+ * Gets coordinates for route endpoints.
+ * 
+ * - start-point for application
+ * - registers click-event for search-button
+ * - calls VEIBLIKK_route.get_route();
+ * 
+ * http://github.com/sverres/veiblikk
+ * 
+ * sverre.stikbakke 27.11.2017
+ */
+
 var VEIBLIKK_address = (function () {
 
   var route_points = {

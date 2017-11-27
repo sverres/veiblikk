@@ -1,3 +1,19 @@
+/**
+ * Module VEIBLIKK_route
+ * 
+ * Gets route data from route API.
+ * 
+ * - display route on map
+ * - display route data
+ * - export route data to webcams module 
+ *    with VEIBLIKK_webcams.import_route function
+ * - calls VEIBLIKK_webcams.get_cctvs_file
+ * 
+ * http://github.com/sverres/veiblikk
+ * 
+ * sverre.stikbakke 27.11.2017
+ */
+
 var VEIBLIKK_route = (function () {
 
   var route = null;
