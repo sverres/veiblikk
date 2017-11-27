@@ -30,7 +30,7 @@ var VEIBLIKK_webcams = (function () {
   var get_cctvs_file = function () {
     VEIBLIKK_messages.ux_message(
       '#status_message',
-      'Finner webkamerabilder. Dette kan ta litt tid . .',
+      'Finner webkamerabilder . . . .',
       'working_on_images');
 
     $.get('GetCCTVSiteTable.xml')

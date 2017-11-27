@@ -3,9 +3,9 @@
  * 
  * Gets route data from route API.
  * 
- * - display route on map
- * - display route data
- * - export route data to webcams module 
+ * - displays route on map
+ * - displays route data
+ * - exports route data to webcams module 
  *    with VEIBLIKK_webcams.import_route function
  * - calls VEIBLIKK_webcams.get_cctvs_file
  * 
