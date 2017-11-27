@@ -12,7 +12,7 @@
  * 
  * Webcam location info is in static XML file.
  * 
- * http://github.com/sverres/veiblikk
+ * https://github.com/sverres/veiblikk
  * 
  * sverre.stikbakke 27.11.2017
  */
@@ -68,10 +68,10 @@ var VEIBLIKK_webcams = (function () {
         buffer_width,
         option_units_meters);
 
-      $(cctv_xml).find("cctvCameraMetadataRecord").each(function () {
+      $(cctv_xml).find('cctvCameraMetadataRecord').each(function () {
         var xml_element = $(this);
-        var cctv_lon = parseFloat(xml_element.find("longitude").text());
-        var cctv_lat = parseFloat(xml_element.find("latitude").text());
+        var cctv_lon = parseFloat(xml_element.find('longitude').text());
+        var cctv_lat = parseFloat(xml_element.find('latitude').text());
         var cctv_point = turf.point([cctv_lon, cctv_lat]);
         if (turf.booleanPointInPolygon(cctv_point, route_buffer)) {
 
@@ -80,11 +80,11 @@ var VEIBLIKK_webcams = (function () {
             cctv_point,
             option_units_kilometers);
 
-          cctv_snapped["properties"]["stillImageUrl"] 
-            = xml_element.find("stillImageUrl").find("urlLinkAddress").text();
-          cctv_snapped["properties"]["urlLinkDescription"]
-            = xml_element.find("stillImageUrl").find("urlLinkDescription")
-              .find("values").find("value").text();
+          cctv_snapped['properties']['stillImageUrl'] 
+            = xml_element.find('stillImageUrl').find('urlLinkAddress').text();
+          cctv_snapped['properties']['urlLinkDescription']
+            = xml_element.find('stillImageUrl').find('urlLinkDescription')
+              .find('values').find('value').text();
 
           cctv_locations.push(cctv_snapped);
         };
@@ -92,8 +92,8 @@ var VEIBLIKK_webcams = (function () {
     });
 
     cctv_locations.sort(function (distance_1, distance_2) {
-      return parseFloat(distance_1["properties"]["location"])
-        - parseFloat(distance_2["properties"]["location"]);
+      return parseFloat(distance_1['properties']['location'])
+        - parseFloat(distance_2['properties']['location']);
     });
 
     VEIBLIKK_messages.ux_message(
@@ -102,9 +102,9 @@ var VEIBLIKK_webcams = (function () {
       'idle');
 
     $(cctv_locations).each(function () {
-      var distance = parseFloat(this["properties"]["location"]).toFixed(0);
-      var web_image_url = this["properties"]["stillImageUrl"];
-      var yr_url = this["properties"]["urlLinkDescription"];
+      var distance = parseFloat(this['properties']['location']).toFixed(0);
+      var web_image_url = this['properties']['stillImageUrl'];
+      var yr_url = this['properties']['urlLinkDescription'];
 
       $('#webcams').append(
         '<div class="svv_image"><h4>' + distance + ' km</h4>'

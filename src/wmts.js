@@ -1,7 +1,7 @@
 /**
  * Mapbox image tile layer with topo2 map tiles
  * 
- * http://github.com/sverres/veiblikk
+ * https://github.com/sverres/veiblikk
  * 
  * sverre.stikbakke 27.11.2017
  */

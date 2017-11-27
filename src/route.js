@@ -9,7 +9,7 @@
  *    with VEIBLIKK_webcams.import_route function
  * - calls VEIBLIKK_webcams.get_cctvs_file
  * 
- * http://github.com/sverres/veiblikk
+ * https://github.com/sverres/veiblikk
  * 
  * sverre.stikbakke 27.11.2017
  */

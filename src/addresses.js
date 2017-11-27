@@ -7,7 +7,7 @@
  * - registers click-event for search-button
  * - calls VEIBLIKK_route.get_route();
  * 
- * http://github.com/sverres/veiblikk
+ * https://github.com/sverres/veiblikk
  * 
  * sverre.stikbakke 27.11.2017
  */
