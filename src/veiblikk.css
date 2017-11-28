@@ -73,7 +73,7 @@ input {
 }
 
 #travel_data {
-  max-width: 802px; 
+  max-width: 802px;
   margin: auto;
   margin-top: 15px;
   text-align: center;
@@ -86,7 +86,7 @@ input {
 
 .error,
 .show_data {
-  background-color: #e94e1b;;
+  background-color: #e94e1b;
 }
 
 .working_on_addresses,
@@ -95,7 +95,7 @@ input {
 }
 
 .working_on_route {
-  background: radial-gradient(#16b1e4 , rgba(255, 255, 255, 0));
+  background: radial-gradient(#16b1e4, rgba(255, 255, 255, 0));
 }
 
 #map {
