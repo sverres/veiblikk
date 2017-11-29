@@ -3,9 +3,7 @@
  * 
  * Gets coordinates for route endpoints.
  * 
- * - start-point for application
- * - registers click-event for search-button
- * - calls VEIBLIKK_route.get_route();
+ * - calls VEIBLIKK_route.get_route;
  * 
  * https://github.com/sverres/veiblikk
  * 
@@ -21,19 +19,9 @@ var VEIBLIKK_address = (function () {
     'destination_y': null
   };
 
-  var start_address = null;
-  var destination_address = null;
-
-
-  $('#search_button').click(function () {
-    start_address = $('#start_address').val();
-    destination_address = $('#destination_address').val();
-    get_starting_point();
-  });
-
 
   var proj4_25832_to_25833 = function (x, y) {
-    return proj4("EPSG:25832", "EPSG:25833", [x, y]);
+    return proj4('EPSG:25832', 'EPSG:25833', [x, y]);
   };
 
 
@@ -42,8 +30,8 @@ var VEIBLIKK_address = (function () {
     if (address == null) {
       return false;
     } else {
-      var address_x = parseFloat(address["LONGITUDE"]);
-      var address_y = parseFloat(address["LATITUDE"]);
+      var address_x = parseFloat(address['LONGITUDE']);
+      var address_y = parseFloat(address['LATITUDE']);
       var address_point = proj4_25832_to_25833(address_x, address_y);
       return address_point;
     };
@@ -85,9 +73,9 @@ var VEIBLIKK_address = (function () {
   var get_starting_point_error = function (ajax_object) {
     VEIBLIKK_messages.ux_message(
       '#status_message',
-      'Feil i fra-adresse-søk: '
-      + ajax_object.statusText + ' '
-      + (ajax_object.errorThrown || ''),
+      'Feil i fra-adresse-søk: ' +
+      ajax_object.statusText + ' ' +
+      (ajax_object.errorThrown || ''),
       'error');
   };
 
@@ -135,13 +123,16 @@ var VEIBLIKK_address = (function () {
   var get_destination_point_error = function (ajax_object) {
     VEIBLIKK_messages.ux_message(
       '#status_message',
-      'Feil i til-adresse-søk: '
-      + ajax_object.statusText + ' '
-      + (ajax_object.errorThrown || ''),
+      'Feil i til-adresse-søk: ' +
+      ajax_object.statusText + ' ' +
+      (ajax_object.errorThrown || ''),
       'error');
   };
 
 
-  return { route_points: route_points };
+  return {
+    route_points: route_points,
+    get_starting_point: get_starting_point
+  };
 
 }());

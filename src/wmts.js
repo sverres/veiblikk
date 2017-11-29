@@ -7,7 +7,7 @@
  */
 
 map.on('load', function () {
-  
+
   var minZoomThreshold = 13;
 
   map.addLayer({

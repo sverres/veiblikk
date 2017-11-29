@@ -80,7 +80,7 @@ var VEIBLIKK_webcams = (function () {
             cctv_point,
             option_units_kilometers);
 
-          cctv_snapped['properties']['stillImageUrl'] 
+          cctv_snapped['properties']['stillImageUrl']
             = xml_element.find('stillImageUrl').find('urlLinkAddress').text();
           cctv_snapped['properties']['urlLinkDescription']
             = xml_element.find('stillImageUrl').find('urlLinkDescription')
