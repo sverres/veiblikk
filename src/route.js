@@ -42,19 +42,19 @@ var VEIBLIKK_route = (function () {
       map.removeSource('svv_route');
     };
 
-    var stops = VEIBLIKK_address.route_points['start_x']
-      + ',' + VEIBLIKK_address.route_points['start_y']
-      + ';' + VEIBLIKK_address.route_points['destination_x']
-      + ',' + VEIBLIKK_address.route_points['destination_y'];
+    var stops = VEIBLIKK_address.route_points['start_x'] +
+      ',' + VEIBLIKK_address.route_points['start_y'] +
+      ';' + VEIBLIKK_address.route_points['destination_x'] +
+      ',' + VEIBLIKK_address.route_points['destination_y'];
 
     var route_API =
-      'https://www.vegvesen.no/ws/no/vegvesen/'
-      + 'ruteplan/routingService_v1_0/routingService?'
-      + 'stops=' + stops + '&'
-      + 'returnDirections=false&'
-      + 'returnGeometry=true&'
-      + 'route_type=best&'
-      + 'format=json';
+      'https://www.vegvesen.no/ws/no/vegvesen/' +
+      'ruteplan/routingService_v1_0/routingService?' +
+      'stops=' + stops + '&' +
+      'returnDirections=false&' +
+      'returnGeometry=true&' +
+      'route_type=best&' +
+      'format=json';
 
     $.ajax({
       url: route_API,
@@ -119,9 +119,10 @@ var VEIBLIKK_route = (function () {
       hours = hours + 1;
     };
 
-    var travel_data = hours + ' t ' + minutes + ' min'
-      + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-      + travel_km + ' km';
+    var travel_data =
+      hours + ' t ' + minutes + ' min' +
+      '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+      travel_km + ' km';
 
     VEIBLIKK_messages.ux_message(
       '#travel_data',
@@ -137,9 +138,9 @@ var VEIBLIKK_route = (function () {
   var get_route_error = function (ajax_object) {
     VEIBLIKK_messages.ux_message(
       '#status_message',
-      'Feil i ruteberegningen: '
-      + ajax_object.statusText + ' '
-      + (ajax_object.errorThrown || ''),
+      'Feil i ruteberegningen: ' +
+      ajax_object.statusText + ' ' +
+      (ajax_object.errorThrown || ''),
       'error');
   };
 
@@ -150,6 +151,8 @@ var VEIBLIKK_route = (function () {
   };
 
 
-  return { get_route: get_route };
+  return {
+    get_route: get_route
+  };
 
 }());
