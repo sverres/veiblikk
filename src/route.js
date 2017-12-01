@@ -49,11 +49,11 @@ var VEIBLIKK_route = (function () {
 
     var route_API =
       'https://www.vegvesen.no/ws/no/vegvesen/' +
-      'ruteplan/routingService_v1_0/routingService?' +
+      'ruteplan/routingService_v1_0/routingService' + '?' +
       'stops=' + stops + '&' +
-      'returnDirections=false&' +
-      'returnGeometry=true&' +
-      'route_type=best&' +
+      'returnDirections=false' + '&' +
+      'returnGeometry=true' + '&' +
+      'route_type=best' + '&' +
       'format=json';
 
     $.ajax({
