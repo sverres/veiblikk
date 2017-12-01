@@ -42,10 +42,11 @@ var VEIBLIKK_route = (function () {
       map.removeSource('svv_route');
     };
 
-    var stops = VEIBLIKK_address.route_points['start_x'] +
-      ',' + VEIBLIKK_address.route_points['start_y'] +
-      ';' + VEIBLIKK_address.route_points['destination_x'] +
-      ',' + VEIBLIKK_address.route_points['destination_y'];
+    var stops =
+      VEIBLIKK_address.route_points['start_x'] + ',' +
+      VEIBLIKK_address.route_points['start_y'] + ';' +
+      VEIBLIKK_address.route_points['destination_x'] + ',' +
+      VEIBLIKK_address.route_points['destination_y'];
 
     var route_API =
       'https://www.vegvesen.no/ws/no/vegvesen/' +
