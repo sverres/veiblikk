@@ -13,7 +13,7 @@
  */
 if (!Array.prototype.fill) {
   Object.defineProperty(Array.prototype, 'fill', {
-    value: function(value) {
+    value: function (value) {
 
       // Steps 1-2.
       if (this == null) {
@@ -61,9 +61,9 @@ if (!Array.prototype.fill) {
  * https://developer.mozilla.org/en-US/docs/Web/
  * JavaScript/Reference/Global_Objects/Number/isInteger
  */
-Number.isInteger = Number.isInteger || function(value) {
-  return typeof value === 'number' && 
-    isFinite(value) && 
+Number.isInteger = Number.isInteger || function (value) {
+  return typeof value === 'number' &&
+    isFinite(value) &&
     Math.floor(value) === value;
 };
 
@@ -72,7 +72,7 @@ Number.isInteger = Number.isInteger || function(value) {
  * https://developer.mozilla.org/en-US/docs/Web/
  * JavaScript/Reference/Global_Objects/Number/isNaN
  */
-Number.isNaN = Number.isNaN || function(value) {     
+Number.isNaN = Number.isNaN || function (value) {
   return value !== value;
 };
 
@@ -81,7 +81,7 @@ Number.isNaN = Number.isNaN || function(value) {
  * https://developer.mozilla.org/en-US/docs/Web/
  * JavaScript/Reference/Global_Objects/Number/isFinite
  */
-Number.isFinite = Number.isFinite || function(value) {
+Number.isFinite = Number.isFinite || function (value) {
   return typeof value === 'number' && isFinite(value);
 };
 
@@ -91,8 +91,8 @@ Number.isFinite = Number.isFinite || function(value) {
  * JavaScript/Reference/Global_Objects/Math/trunc
  */
 if (!Math.trunc) {
-	Math.trunc = function(v) {
-		v = +v;
-		return (v - v % 1)   ||   (!isFinite(v) || v === 0 ? v : v < 0 ? -0 : 0);
-	};
+  Math.trunc = function (v) {
+    v = +v;
+    return (v - v % 1) || (!isFinite(v) || v === 0 ? v : v < 0 ? -0 : 0);
+  };
 };
