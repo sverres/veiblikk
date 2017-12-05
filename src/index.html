@@ -121,11 +121,12 @@
     <p>For mer informasjon om Veiblikk, se
       <a href="https://github.com/sverres/veiblikk">github.com/sverres/veiblikk</a>
     </p>
-    <p>Veiblikk krever en relativt ny nettleser for å virke. IE virker ikke.</p>
+    <p>Veiblikk krever en relativt ny nettleser for å virke. IE 11 virker pr. 05.12.17.</p>
   </aside>
   <section id="map"></section>
   <section id="travel_data" class="no_data">&nbsp;</section>
   <section id="webcams"></section>
+  <script src="polyfill.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script>
     var start_address = null;
@@ -156,7 +157,7 @@
     map.setMaxZoom(18);
   </script>
   <script src="wmts.js"></script>
-  <script src="https://npmcdn.com/@turf/turf@5.0.4/turf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.0.4/turf.min.js" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
   <script src="https://epsg.io/25832.js"></script>
   <script src="https://epsg.io/25833.js"></script>
