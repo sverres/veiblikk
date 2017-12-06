@@ -15,7 +15,13 @@ var VEIBLIKK_messages = (function () {
       .addClass(css_class);
   };
 
+  var ux_debug = function (selector, message) {
+    $(selector).append(message + '<br>')
+  };
 
-  return { ux_message: ux_message };
+  return {
+    ux_message: ux_message,
+    ux_debug: ux_debug
+  };
 
 }());

@@ -10,6 +10,11 @@
  * sverre.stikbakke 27.11.2017
  */
 
+var ajaxDest = null;
+var t0 = null;
+var t_s = null;
+var t_e = null;
+
 var VEIBLIKK_address = (function () {
 
   var route_points = {
@@ -44,10 +49,12 @@ var VEIBLIKK_address = (function () {
       'Finner fra-adresse . .',
       'working_on_addresses');
 
+    t0 = performance.now();
+
     $.ajax({
       url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(start_address),
       type: 'POST',
-      timeout: 10000
+      timeout: 50000
     })
       .done(store_starting_point)
       .fail(get_starting_point_error);
@@ -55,6 +62,11 @@ var VEIBLIKK_address = (function () {
 
 
   var store_starting_point = function (start_address_JSON) {
+    t_s = performance.now();
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      'Time starting_point: ' +
+      parseFloat(t_s - t0).toFixed(0) + ' ms');
     var start_point = parse_address_JSON(start_address_JSON);
     if (start_point == false) {
       VEIBLIKK_messages.ux_message(
@@ -71,6 +83,11 @@ var VEIBLIKK_address = (function () {
 
 
   var get_starting_point_error = function (ajax_object) {
+    t_e = performance.now();
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      'Time starting_point_error: ' +
+      parseFloat(t_e - t0).toFixed(0) + ' ms');
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Feil i fra-adresse-søk: ' +
@@ -86,10 +103,12 @@ var VEIBLIKK_address = (function () {
       'Finner til-adresse . .',
       'working_on_addresses');
 
-    $.ajax({
+    t0 = performance.now();
+
+    ajaxDest = $.ajax({
       url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(destination_address),
       type: 'POST',
-      timeout: 10000
+      timeout: 50000
     })
       .done(store_destination_point)
       .fail(get_destination_point_error);
@@ -97,6 +116,12 @@ var VEIBLIKK_address = (function () {
 
 
   var store_destination_point = function (destination_address_JSON) {
+    var t_s = performance.now();
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      'Time destination_point: ' +
+      parseFloat(t_s - t0).toFixed(0) + ' ms');
+    console.log(ajaxDest);
     var destination_point = parse_address_JSON(destination_address_JSON);
     if (destination_point == false) {
       VEIBLIKK_messages.ux_message(
@@ -121,9 +146,16 @@ var VEIBLIKK_address = (function () {
 
 
   var get_destination_point_error = function (ajax_object) {
+    t_e = performance.now();
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      'Time destination_point_error: ' +
+      parseFloat(t_e - t0).toFixed(0) + ' ms');
+    console.log(ajaxDest);
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Feil i til-adresse-søk: ' +
+      ajax_object.readyState + ' ' +
       ajax_object.statusText + ' ' +
       (ajax_object.errorThrown || ''),
       'error');

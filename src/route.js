@@ -16,6 +16,8 @@
 
 var VEIBLIKK_route = (function () {
 
+  var t_s = null;
+
   var route = null;
 
   var proj4_25833_to_4326 = function (x, y) {
@@ -57,10 +59,12 @@ var VEIBLIKK_route = (function () {
       'route_type=best' + '&' +
       'format=json';
 
+    t0 = performance.now();
+
     $.ajax({
       url: route_API,
       type: 'POST',
-      timeout: 20000
+      timeout: 50000
     })
       .done(display_route_data)
       .fail(get_route_error);
@@ -68,6 +72,12 @@ var VEIBLIKK_route = (function () {
 
 
   var display_route_data = function (directions_JSON) {
+
+    t_s = performance.now();
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      'Time route_data: ' +
+      parseFloat(t_s - t0).toFixed(0) + ' ms');
 
     if (directions_JSON == false) {
       VEIBLIKK_messages.ux_message(
@@ -137,6 +147,11 @@ var VEIBLIKK_route = (function () {
 
 
   var get_route_error = function (ajax_object) {
+    t_e = performance.now();
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      'Time get_route_error: ' +
+      parseFloat(t_e - t0).toFixed(0) + ' ms');
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Feil i ruteberegningen: ' +
