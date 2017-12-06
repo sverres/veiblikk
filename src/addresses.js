@@ -45,10 +45,10 @@ var VEIBLIKK_address = (function () {
       'working_on_addresses');
 
     $.ajax({
-      url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(start_address),
-      type: 'POST',
-      timeout: 10000
-    })
+        url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(start_address),
+        type: 'POST',
+        timeout: 50000
+      })
       .done(store_starting_point)
       .fail(get_starting_point_error);
   };
@@ -87,10 +87,10 @@ var VEIBLIKK_address = (function () {
       'working_on_addresses');
 
     $.ajax({
-      url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(destination_address),
-      type: 'POST',
-      timeout: 10000
-    })
+        url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(destination_address),
+        type: 'POST',
+        timeout: 50000
+      })
       .done(store_destination_point)
       .fail(get_destination_point_error);
   };
@@ -105,8 +105,8 @@ var VEIBLIKK_address = (function () {
         'error');
       return false;
     } else if (turf.booleanEqual(
-      turf.point(destination_point),
-      turf.point([route_points['start_x'], route_points['start_y']]))) {
+        turf.point(destination_point),
+        turf.point([route_points['start_x'], route_points['start_y']]))) {
       VEIBLIKK_messages.ux_message(
         '#status_message',
         'Fra- og til-adresse gir samme resultat',

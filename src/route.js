@@ -60,7 +60,7 @@ var VEIBLIKK_route = (function () {
     $.ajax({
       url: route_API,
       type: 'POST',
-      timeout: 20000
+      timeout: 50000
     })
       .done(display_route_data)
       .fail(get_route_error);
