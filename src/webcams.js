@@ -36,6 +36,8 @@ var VEIBLIKK_webcams = (function () {
       'Finner webkamerabilder . . . .',
       'working_on_images');
 
+    t0 = performance.now();
+
     $.get('GetCCTVSiteTable.xml')
       .done(get_cctv_locations)
       .fail(get_cctvs_file_error);
@@ -43,11 +45,20 @@ var VEIBLIKK_webcams = (function () {
 
 
   var get_cctv_locations = function (cctv_xml) {
+    t_s = performance.now();
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      'Time get_cctvs_file: ' +
+      parseFloat(t_s - t0).toFixed(0) + ' ms');
 
     t0 = performance.now();
 
-    var option_units_meters = { units: 'meters' };
-    var option_units_kilometers = { units: 'kilometers' };
+    var option_units_meters = {
+      units: 'meters'
+    };
+    var option_units_kilometers = {
+      units: 'kilometers'
+    };
 
     var buffer_width = 50;
 
@@ -85,11 +96,11 @@ var VEIBLIKK_webcams = (function () {
             cctv_point,
             option_units_kilometers);
 
-          cctv_snapped['properties']['stillImageUrl']
-            = xml_element.find('stillImageUrl').find('urlLinkAddress').text();
-          cctv_snapped['properties']['urlLinkDescription']
-            = xml_element.find('stillImageUrl').find('urlLinkDescription')
-              .find('values').find('value').text();
+          cctv_snapped['properties']['stillImageUrl'] 
+          = xml_element.find('stillImageUrl').find('urlLinkAddress').text();
+          cctv_snapped['properties']['urlLinkDescription'] 
+          = xml_element.find('stillImageUrl').find('urlLinkDescription')
+            .find('values').find('value').text();
 
           cctv_locations.push(cctv_snapped);
         };
@@ -97,8 +108,8 @@ var VEIBLIKK_webcams = (function () {
     });
 
     cctv_locations.sort(function (distance_1, distance_2) {
-      return parseFloat(distance_1['properties']['location'])
-        - parseFloat(distance_2['properties']['location']);
+      return parseFloat(distance_1['properties']['location']) -
+        parseFloat(distance_2['properties']['location']);
     });
 
     t_s = performance.now();
@@ -106,6 +117,10 @@ var VEIBLIKK_webcams = (function () {
       '#debug_data',
       'Time get_cctv_locations: ' +
       parseFloat(t_s - t0).toFixed(0) + ' ms');
+
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      '-----------');
 
     VEIBLIKK_messages.ux_message(
       '#status_message',
@@ -118,10 +133,10 @@ var VEIBLIKK_webcams = (function () {
       var yr_url = this['properties']['urlLinkDescription'];
 
       $('#webcams').append(
-        '<div class="svv_image"><h4>' + distance + ' km</h4>'
-        + '<p><img src="' + web_image_url + '" /></p>'
-        + '<p><a href="' + yr_url + '" target="_blank">'
-        + decodeURI(yr_url) + '</a></p></div>');
+        '<div class="svv_image"><h4>' + distance + ' km</h4>' +
+        '<p><img src="' + web_image_url + '" /></p>' +
+        '<p><a href="' + yr_url + '" target="_blank">' +
+        decodeURI(yr_url) + '</a></p></div>');
     });
 
   };

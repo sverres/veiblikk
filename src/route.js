@@ -76,7 +76,7 @@ var VEIBLIKK_route = (function () {
     t_s = performance.now();
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
-      'Time route_data: ' +
+      'Time get_route: ' +
       parseFloat(t_s - t0).toFixed(0) + ' ms');
 
     if (directions_JSON == false) {
