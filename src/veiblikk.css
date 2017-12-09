@@ -74,6 +74,7 @@ input {
 
 #travel_data {
   max-width: 802px;
+  max-width: 93%;  
   margin: auto;
   margin-top: 15px;
   text-align: center;
