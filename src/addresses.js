@@ -80,7 +80,7 @@ var VEIBLIKK_address = (function () {
   };
 
 
-  var get_starting_point_error = function (ajax_object) {
+  var get_starting_point_error = function (error) {
     t_e = performance.now();
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
@@ -88,9 +88,7 @@ var VEIBLIKK_address = (function () {
       parseFloat(t_e - t0).toFixed(0) + ' ms');
     VEIBLIKK_messages.ux_message(
       '#status_message',
-      'Feil i fra-adresse-søk: ' +
-      ajax_object.statusText + ' ' +
-      (ajax_object.errorThrown || ''),
+      'Feil i fra-adresse-søk: ' + error,
       'error');
   };
 
@@ -138,7 +136,8 @@ var VEIBLIKK_address = (function () {
   };
 
 
-  var get_destination_point_error = function (ajax_object) {
+  var get_destination_point_error = function (error) {
+    console.log(store_destination_point);
     t_e = performance.now();
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
@@ -146,10 +145,7 @@ var VEIBLIKK_address = (function () {
       parseFloat(t_e - t0).toFixed(0) + ' ms');
     VEIBLIKK_messages.ux_message(
       '#status_message',
-      'Feil i til-adresse-søk: ' +
-      ajax_object.readyState + ' ' +
-      ajax_object.statusText + ' ' +
-      (ajax_object.errorThrown || ''),
+      'Feil i til-adresse-søk: ' + error,
       'error');
   };
 

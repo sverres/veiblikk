@@ -37,7 +37,10 @@ var VEIBLIKK_route = (function () {
       '&nbsp;',
       'no_data');
 
-    $('#webcams').empty();
+    var webcams = Bliss('#webcams');
+    while (webcams.lastChild) {
+      webcams.removeChild(webcams.lastChild);
+    };
 
     if (map.getLayer('svv_route')) {
       map.removeLayer('svv_route');
@@ -50,7 +53,7 @@ var VEIBLIKK_route = (function () {
       VEIBLIKK_address.route_points['destination_x'] + ',' +
       VEIBLIKK_address.route_points['destination_y'];
 
-    var route_API =
+    var route_API_request =
       'https://www.vegvesen.no/ws/no/vegvesen/' +
       'ruteplan/routingService_v1_0/routingService' + '?' +
       'stops=' + stops + '&' +
@@ -61,13 +64,9 @@ var VEIBLIKK_route = (function () {
 
     t0 = performance.now();
 
-    $.ajax({
-      url: route_API,
-      type: 'POST',
-      timeout: 50000
-    })
-      .done(display_route_data)
-      .fail(get_route_error);
+    Bliss.fetch(route_API_request)
+      .then(display_route_data)
+      .catch(get_route_error);
   };
 
 
@@ -79,7 +78,7 @@ var VEIBLIKK_route = (function () {
       'Time get_route: ' +
       parseFloat(t_s - t0).toFixed(0) + ' ms');
 
-    if (directions_JSON == false) {
+    if (directions_JSON.response == false) {
       VEIBLIKK_messages.ux_message(
         '#status_message',
         'Ruteberegningen gav ikke noe resultat. Ukjent feil. Avslutter.',
@@ -87,13 +86,15 @@ var VEIBLIKK_route = (function () {
       return false;
     };
 
-    var directions = $.parseJSON(directions_JSON);
+    var directions = JSON.parse(directions_JSON.response);
 
     var vertices = [];
-    $(directions.routes.features[0].geometry.paths[0])
-      .each(function (index, vertice) {
+
+    Bliss.each(directions.routes.features[0].geometry.paths[0],
+      function (index, vertice) {
         vertices.push(proj4_25833_to_4326(vertice[0], vertice[1]));
-      });
+      }
+    );
 
     route = turf.lineString(vertices);
     map.addLayer({
@@ -146,7 +147,7 @@ var VEIBLIKK_route = (function () {
   };
 
 
-  var get_route_error = function (ajax_object) {
+  var get_route_error = function (error) {
     t_e = performance.now();
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
@@ -154,9 +155,7 @@ var VEIBLIKK_route = (function () {
       parseFloat(t_e - t0).toFixed(0) + ' ms');
     VEIBLIKK_messages.ux_message(
       '#status_message',
-      'Feil i ruteberegningen: ' +
-      ajax_object.statusText + ' ' +
-      (ajax_object.errorThrown || ''),
+      'Feil i ruteberegningen: ' + error, 
       'error');
   };
 
