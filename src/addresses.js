@@ -17,6 +17,8 @@ var t_e = null;
 
 var VEIBLIKK_address = (function () {
 
+  var address_API = 'https://www.norgeskart.no/ws/adr.py?';
+
   var route_points = {
     'start_x': null,
     'start_y': null,
@@ -31,7 +33,7 @@ var VEIBLIKK_address = (function () {
 
 
   var parse_address_JSON = function (address_JSON) {
-    var address = $.parseJSON(address_JSON)[0];
+    var address = JSON.parse(address_JSON.response)[0];
     if (address == null) {
       return false;
     } else {
@@ -51,13 +53,9 @@ var VEIBLIKK_address = (function () {
 
     t0 = performance.now();
 
-    $.ajax({
-      url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(start_address),
-      type: 'POST',
-      timeout: 50000
-    })
-      .done(store_starting_point)
-      .fail(get_starting_point_error);
+    Bliss.fetch(address_API + encodeURI(start_address))
+      .then(store_starting_point)
+      .catch(get_starting_point_error);
   };
 
 
@@ -105,13 +103,9 @@ var VEIBLIKK_address = (function () {
 
     t0 = performance.now();
 
-    ajaxDest = $.ajax({
-      url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(destination_address),
-      type: 'POST',
-      timeout: 50000
-    })
-      .done(store_destination_point)
-      .fail(get_destination_point_error);
+    Bliss.fetch(address_API + encodeURI(destination_address))
+      .then(store_destination_point)
+      .catch(get_destination_point_error);
   };
 
 
@@ -121,7 +115,6 @@ var VEIBLIKK_address = (function () {
       '#debug_data',
       'Time destination_point: ' +
       parseFloat(t_s - t0).toFixed(0) + ' ms');
-    console.log(ajaxDest);
     var destination_point = parse_address_JSON(destination_address_JSON);
     if (destination_point == false) {
       VEIBLIKK_messages.ux_message(
@@ -151,7 +144,6 @@ var VEIBLIKK_address = (function () {
       '#debug_data',
       'Time destination_point_error: ' +
       parseFloat(t_e - t0).toFixed(0) + ' ms');
-    console.log(ajaxDest);
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Feil i til-adresse-søk: ' +
