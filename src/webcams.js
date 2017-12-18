@@ -159,7 +159,7 @@ var VEIBLIKK_webcams = (function () {
         var svv_image = document.createElement('div');
         svv_image.className = 'svv_image';
         svv_image.innerHTML =
-          '<div class="svv_image"><h4>' + distance + ' km</h4>' +
+          '<h4>' + distance + ' km</h4>' +
           '<p><img src="' + web_image_url + '" /></p>' +
           '<p><a href="' + yr_url + '" target="_blank">' +
           decodeURI(yr_url) + '</a></p></div>';
