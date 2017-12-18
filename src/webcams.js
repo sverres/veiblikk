@@ -38,20 +38,23 @@ var VEIBLIKK_webcams = (function () {
 
     t0 = performance.now();
 
-    $.get('GetCCTVSiteTable.xml')
-      .done(get_cctv_locations)
-      .fail(get_cctvs_file_error);
+    Bliss.fetch('GetCCTVSiteTable.xml')
+      .then(get_cctv_locations)
+      .catch(get_cctvs_file_error);
   };
 
 
-  var get_cctv_locations = function (cctv_xml) {
+  var get_cctv_locations = function (xhr) {
     t_s = performance.now();
+
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
       'Time get_cctvs_file: ' +
       parseFloat(t_s - t0).toFixed(0) + ' ms');
 
     t0 = performance.now();
+
+    var cctv_xml = xhr.responseXML;
 
     var option_units_meters = {
       units: 'meters'
@@ -77,35 +80,55 @@ var VEIBLIKK_webcams = (function () {
 
     var cctv_locations = [];
 
-    $.each(route_segments.features, function (index, route_segment) {
+    Bliss.each(route_segments.features,
+      function (index, route_segment) {
+        var route_buffer = turf.buffer(
+          route_segment,
+          buffer_width,
+          option_units_meters);
 
-      var route_buffer = turf.buffer(
-        route_segment,
-        buffer_width,
-        option_units_meters);
+        var cctvs = cctv_xml
+          .getElementsByTagName('cctvCameraMetadataRecord');
 
-      $(cctv_xml).find('cctvCameraMetadataRecord').each(function () {
-        var xml_element = $(this);
-        var cctv_lon = parseFloat(xml_element.find('longitude').text());
-        var cctv_lat = parseFloat(xml_element.find('latitude').text());
-        var cctv_point = turf.point([cctv_lon, cctv_lat]);
-        if (turf.booleanPointInPolygon(cctv_point, route_buffer)) {
+        for (var i = 0; i < cctvs.length; i++) {
+          var xml_element = cctvs[i];
 
-          var cctv_snapped = turf.nearestPointOnLine(
-            route,
-            cctv_point,
-            option_units_kilometers);
+          var cctv_lon = parseFloat(xml_element
+            .getElementsByTagName('longitude')[0]
+            .firstChild.nodeValue);
 
-          cctv_snapped['properties']['stillImageUrl'] 
-          = xml_element.find('stillImageUrl').find('urlLinkAddress').text();
-          cctv_snapped['properties']['urlLinkDescription'] 
-          = xml_element.find('stillImageUrl').find('urlLinkDescription')
-            .find('values').find('value').text();
+          var cctv_lat = parseFloat(xml_element
+            .getElementsByTagName('latitude')[0]
+            .firstChild.nodeValue);
 
-          cctv_locations.push(cctv_snapped);
+          var cctv_point = turf.point([cctv_lon, cctv_lat]);
+
+          if (turf.booleanPointInPolygon(cctv_point, route_buffer)) {
+
+            var cctv_snapped = turf.nearestPointOnLine(
+              route,
+              cctv_point,
+              option_units_kilometers);
+
+            var cctvStillImageService = xml_element
+              .getElementsByTagName('cctvStillImageService')[0];
+
+            var stillImageUrl = cctvStillImageService
+              .getElementsByTagName('urlLinkAddress')[0]
+              .firstChild.nodeValue;
+
+            var urlLinkAddress = cctvStillImageService
+              .getElementsByTagName('value')[0]
+              .firstChild.nodeValue;
+
+            cctv_snapped['properties']['stillImageUrl'] = stillImageUrl;
+            cctv_snapped['properties']['urlLinkDescription'] = urlLinkAddress;
+
+            cctv_locations.push(cctv_snapped);
+          };
         };
-      });
-    });
+      }
+    );
 
     cctv_locations.sort(function (distance_1, distance_2) {
       return parseFloat(distance_1['properties']['location']) -
@@ -127,25 +150,30 @@ var VEIBLIKK_webcams = (function () {
       'Fant ' + cctv_locations.length + ' webkamerabilder',
       'idle');
 
-    $(cctv_locations).each(function () {
-      var distance = parseFloat(this['properties']['location']).toFixed(0);
-      var web_image_url = this['properties']['stillImageUrl'];
-      var yr_url = this['properties']['urlLinkDescription'];
+    Bliss.each(cctv_locations,
+      function (index, webcam) {
+        var distance = parseFloat(webcam['properties']['location']).toFixed(0);
+        var web_image_url = webcam['properties']['stillImageUrl'];
+        var yr_url = webcam['properties']['urlLinkDescription'];
 
-      $('#webcams').append(
-        '<div class="svv_image"><h4>' + distance + ' km</h4>' +
-        '<p><img src="' + web_image_url + '" /></p>' +
-        '<p><a href="' + yr_url + '" target="_blank">' +
-        decodeURI(yr_url) + '</a></p></div>');
-    });
-
+        var svv_image = document.createElement('div');
+        svv_image.className = 'svv_image';
+        svv_image.innerHTML =
+          '<div class="svv_image"><h4>' + distance + ' km</h4>' +
+          '<p><img src="' + web_image_url + '" /></p>' +
+          '<p><a href="' + yr_url + '" target="_blank">' +
+          decodeURI(yr_url) + '</a></p></div>';
+        var webcams = document.getElementById('webcams');
+        webcams.appendChild(svv_image);
+      }
+    );
   };
 
 
-  var get_cctvs_file_error = function () {
+  var get_cctvs_file_error = function (error) {
     VEIBLIKK_messages.ux_message(
       '#status_message',
-      'Får ikke hentet webkamera-info. Ukjent feil.',
+      'Får ikke hentet webkamera-info. ' + error,
       'error');
   };
 
