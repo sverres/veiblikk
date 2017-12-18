@@ -70,7 +70,7 @@ var VEIBLIKK_route = (function () {
   };
 
 
-  var display_route_data = function (directions_JSON) {
+  var display_route_data = function (xhr) {
 
     t_s = performance.now();
     VEIBLIKK_messages.ux_debug(
@@ -78,7 +78,9 @@ var VEIBLIKK_route = (function () {
       'Time get_route: ' +
       parseFloat(t_s - t0).toFixed(0) + ' ms');
 
-    if (directions_JSON.response == false) {
+    var directions_JSON = xhr.response;
+
+    if (directions_JSON == false) {
       VEIBLIKK_messages.ux_message(
         '#status_message',
         'Ruteberegningen gav ikke noe resultat. Ukjent feil. Avslutter.',
@@ -86,7 +88,7 @@ var VEIBLIKK_route = (function () {
       return false;
     };
 
-    var directions = JSON.parse(directions_JSON.response);
+    var directions = JSON.parse(directions_JSON);
 
     var vertices = [];
 
@@ -155,7 +157,7 @@ var VEIBLIKK_route = (function () {
       parseFloat(t_e - t0).toFixed(0) + ' ms');
     VEIBLIKK_messages.ux_message(
       '#status_message',
-      'Feil i ruteberegningen: ' + error, 
+      'Feil i ruteberegningen: ' + error,
       'error');
   };
 

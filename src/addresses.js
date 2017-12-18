@@ -10,7 +10,6 @@
  * sverre.stikbakke 27.11.2017
  */
 
-var ajaxDest = null;
 var t0 = null;
 var t_s = null;
 var t_e = null;
@@ -33,7 +32,7 @@ var VEIBLIKK_address = (function () {
 
 
   var parse_address_JSON = function (address_JSON) {
-    var address = JSON.parse(address_JSON.response)[0];
+    var address = JSON.parse(address_JSON)[0];
     if (address == null) {
       return false;
     } else {
@@ -59,12 +58,13 @@ var VEIBLIKK_address = (function () {
   };
 
 
-  var store_starting_point = function (start_address_JSON) {
+  var store_starting_point = function (xhr) {
     t_s = performance.now();
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
       'Time starting_point: ' +
       parseFloat(t_s - t0).toFixed(0) + ' ms');
+    var start_address_JSON = xhr.response;
     var start_point = parse_address_JSON(start_address_JSON);
     if (start_point == false) {
       VEIBLIKK_messages.ux_message(
@@ -107,12 +107,13 @@ var VEIBLIKK_address = (function () {
   };
 
 
-  var store_destination_point = function (destination_address_JSON) {
+  var store_destination_point = function (xhr) {
     var t_s = performance.now();
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
       'Time destination_point: ' +
       parseFloat(t_s - t0).toFixed(0) + ' ms');
+    var destination_address_JSON = xhr.response;
     var destination_point = parse_address_JSON(destination_address_JSON);
     if (destination_point == false) {
       VEIBLIKK_messages.ux_message(
