@@ -168,10 +168,14 @@ input {
 }
         
 #debug_data {
-  max-width: 783px;
+  max-width: 785px;
   margin: auto;
-  margin-top: 15px;
-  margin-bottom: 15px;
   padding-left: 15px;
   background-color: #9d9d9c;
+}
+
+#debug_data p {
+  margin-top: 0px;
+  margin-bottom: 5px;
+  font-size: 20px;
 }

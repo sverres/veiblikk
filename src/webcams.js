@@ -78,6 +78,9 @@ var VEIBLIKK_webcams = (function () {
       segment_lenght,
       option_units_kilometers);
 
+    var cctvs = cctv_xml
+      .getElementsByTagName('cctvCameraMetadataRecord');
+
     var cctv_locations = [];
 
     Bliss.each(route_segments.features,
@@ -85,10 +88,8 @@ var VEIBLIKK_webcams = (function () {
         var route_buffer = turf.buffer(
           route_segment,
           buffer_width,
-          option_units_meters);
-
-        var cctvs = cctv_xml
-          .getElementsByTagName('cctvCameraMetadataRecord');
+          option_units_meters
+        );
 
         for (var i = 0; i < cctvs.length; i++) {
           var xml_element = cctvs[i];
