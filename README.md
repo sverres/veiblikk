@@ -35,7 +35,7 @@ Route: Strandkaien 1, Stavanger - Storgata 1, Kirkenes (2670 km)
 
 Wall time for webcam module calculations (with no external dependencies - only in-browser calculations). Polyfills are included for IE11.
 
-Browser |Veiblikk version |1. run |2. run |3.run |Average time (ms)
+Browser |Veiblikk version |1. run |2. run |3. run |Average time (ms)
 -- |-- |-- |-- |-- |--
 IE11 11.786.15063.0 |jQuery |61511 |61867 |61092 |61490
 | |Bliss |165870 |162123 |159337 |162443
