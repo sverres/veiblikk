@@ -127,23 +127,32 @@
   <section id="travel_data" class="no_data">&nbsp;</section>
   <section id="webcams"></section>
   <script src="polyfill.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.polyfill.io/v2/polyfill.js?features=blissfuljs"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blissfuljs/1.0.4/bliss.shy.min.js" charset="utf-8"></script>
   <script>
     var start_address = null;
     var destination_address = null;
 
-    $('#search_button').click(function () {
-      start_address = $('#start_address').val();
-      destination_address = $('#destination_address').val();
-      VEIBLIKK_address.get_starting_point();
-    });
-
-    $("#about_link").click(function () {
-      $("#about").css('visibility', 'visible')
-    });
-    $("#about").click(function () {
-      $("#about").css('visibility', 'hidden')
-    });
+    Bliss('#search_button').addEventListener(
+      'click',
+      function () {
+        start_address = Bliss('#start_address').value;
+        destination_address = Bliss('#destination_address').value;
+        VEIBLIKK_address.get_starting_point();
+      }
+    );
+    Bliss("#about_link").addEventListener(
+      'click',
+      function () {
+        Bliss("#about").style.visibility = 'visible';
+      }
+    );
+    Bliss("#about").addEventListener(
+      'click',
+      function () {
+        Bliss("#about").style.visibility = 'hidden';
+      }
+    );
   </script>
   <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.41.0/mapbox-gl.js"></script>
   <script>
@@ -157,8 +166,6 @@
     map.setMaxZoom(18);
   </script>
   <script src="wmts.js"></script>
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=blissfuljs"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/blissfuljs/1.0.4/bliss.shy.min.js" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.0.4/turf.min.js" charset="utf-8"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
   <script src="https://epsg.io/25832.js"></script>
