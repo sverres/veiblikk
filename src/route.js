@@ -164,7 +164,7 @@ var VEIBLIKK_route = (function () {
 
   var get_webcams = function () {
     VEIBLIKK_webcams.import_route(route);
-    VEIBLIKK_webcams.get_cctvs_file();
+    VEIBLIKK_webcams.get_cctv_locations();
   };
 
 
