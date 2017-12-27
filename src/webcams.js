@@ -23,12 +23,23 @@ var VEIBLIKK_webcams = (function () {
   var t_s = null;
 
   var route = null;
+  var route_segment = null;
+  var route_segments = null;
+  var segment_index = null;
+
   var cctv_JSON = null;
+  var cctv_locations_route = null;
 
-
-  var import_route = function (exported_route) {
-    route = exported_route;
+  var option_units_meters = {
+    units: 'meters'
   };
+
+  var option_units_kilometers = {
+    units: 'kilometers'
+  };
+
+  var segment_length = 30;
+  var buffer_width = 50;
 
 
   var preprocess_cctv_locations = function (xhr) {
@@ -36,103 +47,111 @@ var VEIBLIKK_webcams = (function () {
   };
 
 
-  var get_cctv_locations = function (xhr) {
-    t_s = performance.now();
+  var import_route = function (exported_route) {
+    route = exported_route;
+    setTimeout(make_segments, 0);
+  };
 
-    VEIBLIKK_messages.ux_message(
-      '#status_message',
-      'Finner webkamerabilder . . . .',
-      'working_on_images');
 
-    t0 = performance.now();
-
-    var option_units_meters = {
-      units: 'meters'
-    };
-    var option_units_kilometers = {
-      units: 'kilometers'
-    };
-
-    var buffer_width = 50;
+  var make_segments = function () {
+    segment_index = 0;
+    cctv_locations_route = [];
 
     /** 
-     * Split route in short segments to increase
-     * performance in PointInPolygon function.
-     * 30 km segments may be a sweet spot.
-     */
+   * Split route in short segments to increase
+   * performance in PointInPolygon function.
+   * 30 km segments may be a sweet spot.
+   */
 
-    var segment_lenght = 30;
-
-    var route_segments = turf.lineChunk(
+    route_segments = turf.lineChunk(
       route,
-      segment_lenght,
+      segment_length,
       option_units_kilometers
     );
 
-    var cctv_locations_route = [];
+    t0 = performance.now();
 
-    Bliss.each(route_segments.features,
-      function (index, route_segment) {
-        var route_buffer = turf.buffer(
-          route_segment,
-          buffer_width,
-          option_units_meters
+    setTimeout(cctv_segment_loop(), 0);
+  };
+
+
+  var cctv_segment_loop = function () {
+    route_segment = route_segments.features[segment_index];
+    segment_index++;
+
+    if (segment_index > route_segments.features.length) {
+      setTimeout(cctv_display, 0);
+      return true;
+    };
+
+    setTimeout(cctvs_in_segment, 0);
+  };
+
+
+  var cctvs_in_segment = function () {
+    var route_buffer = turf.buffer(
+      route_segment,
+      buffer_width,
+      option_units_meters
+    );
+
+    Bliss.each(cctv_JSON
+      .d2LogicalModel
+      .payloadPublication
+      .genericPublicationExtension
+      .cctvSiteTablePublication
+      .cctvCameraList
+      .cctvCameraMetadataRecord,
+      function (index, cctv_location) {
+
+        var cctv_lon = parseFloat(cctv_location
+          .cctvCameraLocation
+          .pointByCoordinates
+          .pointCoordinates.longitude
         );
 
-        Bliss.each(cctv_JSON
-          .d2LogicalModel
-          .payloadPublication
-          .genericPublicationExtension
-          .cctvSiteTablePublication
-          .cctvCameraList
-          .cctvCameraMetadataRecord,
-          function (index, cctv_location) {
-
-            var cctv_lon = parseFloat(cctv_location
-              .cctvCameraLocation
-              .pointByCoordinates
-              .pointCoordinates.longitude
-            );
-
-            var cctv_lat = parseFloat(cctv_location
-              .cctvCameraLocation
-              .pointByCoordinates
-              .pointCoordinates.latitude
-            );
-
-            var cctv_point = turf.point([cctv_lon, cctv_lat]);
-
-            if (turf.booleanPointInPolygon(cctv_point, route_buffer)) {
-
-              var cctv_snapped = turf.nearestPointOnLine(
-                route,
-                cctv_point,
-                option_units_kilometers
-              );
-
-              cctv_snapped['properties']['stillImageUrl'] = cctv_location
-                .cctvStillImageService
-                .stillImageUrl
-                .urlLinkAddress;
-
-              cctv_snapped['properties']['urlLinkDescription'] = cctv_location
-                .cctvStillImageService
-                .stillImageUrl
-                .urlLinkDescription
-                .values
-                .value;
-
-              cctv_snapped['properties']['cctvCameraSite'] = cctv_location
-                .cctvCameraSiteLocalDescription
-                .values
-                .value;
-
-              cctv_locations_route.push(cctv_snapped);
-            };
-          }
+        var cctv_lat = parseFloat(cctv_location
+          .cctvCameraLocation
+          .pointByCoordinates
+          .pointCoordinates.latitude
         );
+
+        var cctv_point = turf.point([cctv_lon, cctv_lat]);
+
+        if (turf.booleanPointInPolygon(cctv_point, route_buffer)) {
+
+          var cctv_snapped = turf.nearestPointOnLine(
+            route,
+            cctv_point,
+            option_units_kilometers
+          );
+
+          cctv_snapped['properties']['stillImageUrl'] = cctv_location
+            .cctvStillImageService
+            .stillImageUrl
+            .urlLinkAddress;
+
+          cctv_snapped['properties']['urlLinkDescription'] = cctv_location
+            .cctvStillImageService
+            .stillImageUrl
+            .urlLinkDescription
+            .values
+            .value;
+
+          cctv_snapped['properties']['cctvCameraSite'] = cctv_location
+            .cctvCameraSiteLocalDescription
+            .values
+            .value;
+
+          cctv_locations_route.push(cctv_snapped);
+        };
       }
     );
+    setTimeout(cctv_segment_loop, 0);
+  };
+
+
+  var cctv_display = function () {
 
     cctv_locations_route.sort(function (distance_1, distance_2) {
       return parseFloat(distance_1['properties']['location']) -
@@ -140,9 +159,10 @@ var VEIBLIKK_webcams = (function () {
     });
 
     t_s = performance.now();
+
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
-      'Time get_cctv_locations: ' +
+      'Time cctv_display: ' +
       parseFloat(t_s - t0).toFixed(0) + ' ms'
     );
 
@@ -192,8 +212,8 @@ var VEIBLIKK_webcams = (function () {
 
 
   return {
-    get_cctv_locations: get_cctv_locations,
-    import_route: import_route
+    import_route: import_route,
+    make_segments: make_segments
   };
 
 }());

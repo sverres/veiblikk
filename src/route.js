@@ -30,12 +30,14 @@ var VEIBLIKK_route = (function () {
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Finner reiserute . .',
-      'working_on_route');
+      'working_on_route'
+    );
 
     VEIBLIKK_messages.ux_message(
       '#travel_data',
       '&nbsp;',
-      'no_data');
+      'no_data'
+    );
 
     var webcams = Bliss('#webcams');
     while (webcams.lastChild) {
@@ -76,7 +78,8 @@ var VEIBLIKK_route = (function () {
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
       'Time get_route: ' +
-      parseFloat(t_s - t0).toFixed(0) + ' ms');
+      parseFloat(t_s - t0).toFixed(0) + ' ms'
+    );
 
     var directions_JSON = xhr.response;
 
@@ -141,11 +144,17 @@ var VEIBLIKK_route = (function () {
     VEIBLIKK_messages.ux_message(
       '#travel_data',
       travel_data,
-      'show_data');
+      'show_data'
+    );
+
+    VEIBLIKK_messages.ux_message(
+      '#status_message',
+      'Finner webkamerabilder . . . .',
+      'working_on_images'
+    );
 
     // Short timeout to avoid map freeze
-    setTimeout(get_webcams, 500);
-
+    setTimeout(get_webcams, 700);
   };
 
 
@@ -164,10 +173,9 @@ var VEIBLIKK_route = (function () {
 
   var get_webcams = function () {
     VEIBLIKK_webcams.import_route(route);
-    VEIBLIKK_webcams.get_cctv_locations();
   };
 
-
+  
   return {
     get_route: get_route
   };
