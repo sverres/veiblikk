@@ -7,7 +7,6 @@
  * - displays route data
  * - exports route data to webcams module 
  *    with VEIBLIKK_webcams.import_route function
- * - calls VEIBLIKK_webcams.get_cctvs_file
  * 
  * https://github.com/sverres/veiblikk
  * 
@@ -19,6 +18,7 @@ var VEIBLIKK_route = (function () {
   var t_s = null;
 
   var route = null;
+
 
   var proj4_25833_to_4326 = function (x, y) {
     return proj4('EPSG:25833', 'EPSG:4326', [x, y]);
@@ -75,6 +75,7 @@ var VEIBLIKK_route = (function () {
   var display_route_data = function (xhr) {
 
     t_s = performance.now();
+
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
       'Time get_route: ' +
@@ -159,12 +160,15 @@ var VEIBLIKK_route = (function () {
 
 
   var get_route_error = function (error) {
+
     t_e = performance.now();
+    
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
       'Time get_route_error: ' +
       parseFloat(t_e - t0).toFixed(0) + ' ms');
-    VEIBLIKK_messages.ux_message(
+    
+      VEIBLIKK_messages.ux_message(
       '#status_message',
       'Feil i ruteberegningen: ' + error,
       'error');

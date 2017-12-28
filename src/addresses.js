@@ -59,11 +59,15 @@ var VEIBLIKK_address = (function () {
 
 
   var store_starting_point = function (xhr) {
+
     t_s = performance.now();
+
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
       'Time starting_point: ' +
-      parseFloat(t_s - t0).toFixed(0) + ' ms');
+      parseFloat(t_s - t0).toFixed(0) + ' ms'
+    );
+
     var start_address_JSON = xhr.response;
     var start_point = parse_address_JSON(start_address_JSON);
     if (start_point == false) {
@@ -81,15 +85,20 @@ var VEIBLIKK_address = (function () {
 
 
   var get_starting_point_error = function (error) {
+
     t_e = performance.now();
+
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
       'Time starting_point_error: ' +
-      parseFloat(t_e - t0).toFixed(0) + ' ms');
+      parseFloat(t_e - t0).toFixed(0) + ' ms'
+    );
+
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Feil i fra-adresse-søk: ' + error,
-      'error');
+      'error'
+    );
   };
 
 
@@ -97,7 +106,8 @@ var VEIBLIKK_address = (function () {
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Finner til-adresse . .',
-      'working_on_addresses');
+      'working_on_addresses'
+    );
 
     t0 = performance.now();
 
@@ -108,46 +118,56 @@ var VEIBLIKK_address = (function () {
 
 
   var store_destination_point = function (xhr) {
+
     var t_s = performance.now();
+
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
       'Time destination_point: ' +
-      parseFloat(t_s - t0).toFixed(0) + ' ms');
+      parseFloat(t_s - t0).toFixed(0) + ' ms'
+    );
+
     var destination_address_JSON = xhr.response;
     var destination_point = parse_address_JSON(destination_address_JSON);
     if (destination_point == false) {
       VEIBLIKK_messages.ux_message(
         '#status_message',
         'Finner ikke til-adresse (gatenavn husnummer, sted)',
-        'error');
+        'error'
+      );
       return false;
     } else if (turf.booleanEqual(
-      turf.point(destination_point),
-      turf.point([route_points['start_x'], route_points['start_y']]))) {
+        turf.point(destination_point),
+        turf.point([route_points['start_x'], route_points['start_y']]))) {
       VEIBLIKK_messages.ux_message(
         '#status_message',
         'Fra- og til-adresse gir samme resultat',
-        'error');
+        'error'
+      );
       return false;
     } else {
       route_points['destination_x'] = destination_point[0];
       route_points['destination_y'] = destination_point[1];
-      VEIBLIKK_route.get_route();
+      setTimeout(VEIBLIKK_route.get_route, 0);
     };
   };
 
 
   var get_destination_point_error = function (error) {
-    console.log(store_destination_point);
+
     t_e = performance.now();
+
     VEIBLIKK_messages.ux_debug(
       '#debug_data',
       'Time destination_point_error: ' +
-      parseFloat(t_e - t0).toFixed(0) + ' ms');
+      parseFloat(t_e - t0).toFixed(0) + ' ms'
+    );
+
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Feil i til-adresse-søk: ' + error,
-      'error');
+      'error'
+    );
   };
 
 

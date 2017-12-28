@@ -212,8 +212,7 @@ var VEIBLIKK_webcams = (function () {
 
 
   return {
-    import_route: import_route,
-    make_segments: make_segments
+    import_route: import_route
   };
 
 }());
