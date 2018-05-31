@@ -15,10 +15,6 @@
 
 var VEIBLIKK_route = (function () {
 
-  var t_s = null;
-
-  var route = null;
-
 
   var proj4_25833_to_4326 = function (x, y) {
     return proj4('EPSG:25833', 'EPSG:4326', [x, y]);
@@ -64,8 +60,6 @@ var VEIBLIKK_route = (function () {
       'route_type=best' + '&' +
       'format=json';
 
-    t0 = performance.now();
-
     Bliss.fetch(route_API_request)
       .then(display_route_data)
       .catch(get_route_error);
@@ -73,14 +67,6 @@ var VEIBLIKK_route = (function () {
 
 
   var display_route_data = function (xhr) {
-
-    t_s = performance.now();
-
-    VEIBLIKK_messages.ux_debug(
-      '#debug_data',
-      'Time get_route: ' +
-      parseFloat(t_s - t0).toFixed(0) + ' ms'
-    );
 
     var directions_JSON = xhr.response;
 
@@ -161,13 +147,6 @@ var VEIBLIKK_route = (function () {
 
   var get_route_error = function (error) {
 
-    t_e = performance.now();
-    
-    VEIBLIKK_messages.ux_debug(
-      '#debug_data',
-      'Time get_route_error: ' +
-      parseFloat(t_e - t0).toFixed(0) + ' ms');
-    
       VEIBLIKK_messages.ux_message(
       '#status_message',
       'Feil i ruteberegningen: ' + error,

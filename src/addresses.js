@@ -10,10 +10,6 @@
  * sverre.stikbakke 27.11.2017
  */
 
-var t0 = null;
-var t_s = null;
-var t_e = null;
-
 var VEIBLIKK_address = (function () {
 
   var address_API = 'https://www.norgeskart.no/ws/adr.py?';
@@ -50,8 +46,6 @@ var VEIBLIKK_address = (function () {
       'Finner fra-adresse . .',
       'working_on_addresses');
 
-    t0 = performance.now();
-
     Bliss.fetch(address_API + encodeURI(start_address))
       .then(store_starting_point)
       .catch(get_starting_point_error);
@@ -59,14 +53,6 @@ var VEIBLIKK_address = (function () {
 
 
   var store_starting_point = function (xhr) {
-
-    t_s = performance.now();
-
-    VEIBLIKK_messages.ux_debug(
-      '#debug_data',
-      'Time starting_point: ' +
-      parseFloat(t_s - t0).toFixed(0) + ' ms'
-    );
 
     var start_address_JSON = xhr.response;
     var start_point = parse_address_JSON(start_address_JSON);
@@ -86,14 +72,6 @@ var VEIBLIKK_address = (function () {
 
   var get_starting_point_error = function (error) {
 
-    t_e = performance.now();
-
-    VEIBLIKK_messages.ux_debug(
-      '#debug_data',
-      'Time starting_point_error: ' +
-      parseFloat(t_e - t0).toFixed(0) + ' ms'
-    );
-
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Feil i fra-adresse-søk: ' + error,
@@ -109,8 +87,6 @@ var VEIBLIKK_address = (function () {
       'working_on_addresses'
     );
 
-    t0 = performance.now();
-
     Bliss.fetch(address_API + encodeURI(destination_address))
       .then(store_destination_point)
       .catch(get_destination_point_error);
@@ -118,14 +94,6 @@ var VEIBLIKK_address = (function () {
 
 
   var store_destination_point = function (xhr) {
-
-    var t_s = performance.now();
-
-    VEIBLIKK_messages.ux_debug(
-      '#debug_data',
-      'Time destination_point: ' +
-      parseFloat(t_s - t0).toFixed(0) + ' ms'
-    );
 
     var destination_address_JSON = xhr.response;
     var destination_point = parse_address_JSON(destination_address_JSON);
@@ -154,14 +122,6 @@ var VEIBLIKK_address = (function () {
 
 
   var get_destination_point_error = function (error) {
-
-    t_e = performance.now();
-
-    VEIBLIKK_messages.ux_debug(
-      '#debug_data',
-      'Time destination_point_error: ' +
-      parseFloat(t_e - t0).toFixed(0) + ' ms'
-    );
 
     VEIBLIKK_messages.ux_message(
       '#status_message',
