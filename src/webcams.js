@@ -80,7 +80,7 @@ var VEIBLIKK_webcams = (function () {
       option_units_kilometers
     );
 
-    setTimeout(route_segments_loop(), 0);
+    setTimeout(route_segments_loop, 0);
   };
 
 
