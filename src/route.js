@@ -7,7 +7,6 @@
  * - displays route data
  * - exports route data to webcams module 
  *    with VEIBLIKK_webcams.import_route function
- * - calls VEIBLIKK_webcams.get_cctvs_file
  * 
  * https://github.com/sverres/veiblikk
  * 
@@ -16,7 +15,10 @@
 
 var VEIBLIKK_route = (function () {
 
+  var t_s = null;
+
   var route = null;
+
 
   var proj4_25833_to_4326 = function (x, y) {
     return proj4('EPSG:25833', 'EPSG:4326', [x, y]);
@@ -28,14 +30,19 @@ var VEIBLIKK_route = (function () {
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Finner reiserute . .',
-      'working_on_route');
+      'working_on_route'
+    );
 
     VEIBLIKK_messages.ux_message(
       '#travel_data',
       '&nbsp;',
-      'no_data');
+      'no_data'
+    );
 
-    $('#webcams').empty();
+    var webcams = Bliss('#webcams');
+    while (webcams.lastChild) {
+      webcams.removeChild(webcams.lastChild);
+    };
 
     if (map.getLayer('svv_route')) {
       map.removeLayer('svv_route');
@@ -48,7 +55,7 @@ var VEIBLIKK_route = (function () {
       VEIBLIKK_address.route_points['destination_x'] + ',' +
       VEIBLIKK_address.route_points['destination_y'];
 
-    var route_API =
+    var route_API_request =
       'https://www.vegvesen.no/ws/no/vegvesen/' +
       'ruteplan/routingService_v1_0/routingService' + '?' +
       'stops=' + stops + '&' +
@@ -57,17 +64,25 @@ var VEIBLIKK_route = (function () {
       'route_type=best' + '&' +
       'format=json';
 
-    $.ajax({
-      url: route_API,
-      type: 'POST',
-      timeout: 50000
-    })
-      .done(display_route_data)
-      .fail(get_route_error);
+    t0 = performance.now();
+
+    Bliss.fetch(route_API_request)
+      .then(display_route_data)
+      .catch(get_route_error);
   };
 
 
-  var display_route_data = function (directions_JSON) {
+  var display_route_data = function (xhr) {
+
+    t_s = performance.now();
+
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      'Time get_route: ' +
+      parseFloat(t_s - t0).toFixed(0) + ' ms'
+    );
+
+    var directions_JSON = xhr.response;
 
     if (directions_JSON == false) {
       VEIBLIKK_messages.ux_message(
@@ -77,13 +92,15 @@ var VEIBLIKK_route = (function () {
       return false;
     };
 
-    var directions = $.parseJSON(directions_JSON);
+    var directions = JSON.parse(directions_JSON);
 
     var vertices = [];
-    $(directions.routes.features[0].geometry.paths[0])
-      .each(function (index, vertice) {
+
+    Bliss.each(directions.routes.features[0].geometry.paths[0],
+      function (index, vertice) {
         vertices.push(proj4_25833_to_4326(vertice[0], vertice[1]));
-      });
+      }
+    );
 
     route = turf.lineString(vertices);
     map.addLayer({
@@ -128,30 +145,41 @@ var VEIBLIKK_route = (function () {
     VEIBLIKK_messages.ux_message(
       '#travel_data',
       travel_data,
-      'show_data');
+      'show_data'
+    );
+
+    VEIBLIKK_messages.ux_message(
+      '#status_message',
+      'Finner webkamerabilder . . . .',
+      'working_on_images'
+    );
 
     // Short timeout to avoid map freeze
-    setTimeout(get_webcams, 500);
-
+    setTimeout(get_webcams, 700);
   };
 
 
-  var get_route_error = function (ajax_object) {
-    VEIBLIKK_messages.ux_message(
+  var get_route_error = function (error) {
+
+    t_e = performance.now();
+    
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      'Time get_route_error: ' +
+      parseFloat(t_e - t0).toFixed(0) + ' ms');
+    
+      VEIBLIKK_messages.ux_message(
       '#status_message',
-      'Feil i ruteberegningen: ' +
-      ajax_object.statusText + ' ' +
-      (ajax_object.errorThrown || ''),
+      'Feil i ruteberegningen: ' + error,
       'error');
   };
 
 
   var get_webcams = function () {
     VEIBLIKK_webcams.import_route(route);
-    VEIBLIKK_webcams.get_cctvs_file();
   };
 
-
+  
   return {
     get_route: get_route
   };

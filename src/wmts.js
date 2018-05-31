@@ -23,7 +23,7 @@ map.on('load', function () {
         'Request=GetTile' + '&' +
         'Format=image/png' + '&' +
         'Style=default' + '&' +
-        'Layer=topo2graatone' + '&' +
+        'Layer=topo4graatone' + '&' +
         'TileMatrixSet=EPSG:3857' + '&' +
         'TileMatrix=EPSG:3857:{z}' + '&' +
         'TileCol={x}' + '&' +

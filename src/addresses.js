@@ -10,7 +10,13 @@
  * sverre.stikbakke 27.11.2017
  */
 
+var t0 = null;
+var t_s = null;
+var t_e = null;
+
 var VEIBLIKK_address = (function () {
+
+  var address_API = 'https://www.norgeskart.no/ws/adr.py?';
 
   var route_points = {
     'start_x': null,
@@ -26,7 +32,7 @@ var VEIBLIKK_address = (function () {
 
 
   var parse_address_JSON = function (address_JSON) {
-    var address = $.parseJSON(address_JSON)[0];
+    var address = JSON.parse(address_JSON)[0];
     if (address == null) {
       return false;
     } else {
@@ -44,17 +50,25 @@ var VEIBLIKK_address = (function () {
       'Finner fra-adresse . .',
       'working_on_addresses');
 
-    $.ajax({
-        url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(start_address),
-        type: 'POST',
-        timeout: 50000
-      })
-      .done(store_starting_point)
-      .fail(get_starting_point_error);
+    t0 = performance.now();
+
+    Bliss.fetch(address_API + encodeURI(start_address))
+      .then(store_starting_point)
+      .catch(get_starting_point_error);
   };
 
 
-  var store_starting_point = function (start_address_JSON) {
+  var store_starting_point = function (xhr) {
+
+    t_s = performance.now();
+
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      'Time starting_point: ' +
+      parseFloat(t_s - t0).toFixed(0) + ' ms'
+    );
+
+    var start_address_JSON = xhr.response;
     var start_point = parse_address_JSON(start_address_JSON);
     if (start_point == false) {
       VEIBLIKK_messages.ux_message(
@@ -70,13 +84,21 @@ var VEIBLIKK_address = (function () {
   };
 
 
-  var get_starting_point_error = function (ajax_object) {
+  var get_starting_point_error = function (error) {
+
+    t_e = performance.now();
+
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      'Time starting_point_error: ' +
+      parseFloat(t_e - t0).toFixed(0) + ' ms'
+    );
+
     VEIBLIKK_messages.ux_message(
       '#status_message',
-      'Feil i fra-adresse-søk: ' +
-      ajax_object.statusText + ' ' +
-      (ajax_object.errorThrown || ''),
-      'error');
+      'Feil i fra-adresse-søk: ' + error,
+      'error'
+    );
   };
 
 
@@ -84,25 +106,35 @@ var VEIBLIKK_address = (function () {
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Finner til-adresse . .',
-      'working_on_addresses');
+      'working_on_addresses'
+    );
 
-    $.ajax({
-        url: 'https://www.norgeskart.no/ws/adr.py?' + encodeURI(destination_address),
-        type: 'POST',
-        timeout: 50000
-      })
-      .done(store_destination_point)
-      .fail(get_destination_point_error);
+    t0 = performance.now();
+
+    Bliss.fetch(address_API + encodeURI(destination_address))
+      .then(store_destination_point)
+      .catch(get_destination_point_error);
   };
 
 
-  var store_destination_point = function (destination_address_JSON) {
+  var store_destination_point = function (xhr) {
+
+    var t_s = performance.now();
+
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      'Time destination_point: ' +
+      parseFloat(t_s - t0).toFixed(0) + ' ms'
+    );
+
+    var destination_address_JSON = xhr.response;
     var destination_point = parse_address_JSON(destination_address_JSON);
     if (destination_point == false) {
       VEIBLIKK_messages.ux_message(
         '#status_message',
         'Finner ikke til-adresse (gatenavn husnummer, sted)',
-        'error');
+        'error'
+      );
       return false;
     } else if (turf.booleanEqual(
         turf.point(destination_point),
@@ -110,23 +142,32 @@ var VEIBLIKK_address = (function () {
       VEIBLIKK_messages.ux_message(
         '#status_message',
         'Fra- og til-adresse gir samme resultat',
-        'error');
+        'error'
+      );
       return false;
     } else {
       route_points['destination_x'] = destination_point[0];
       route_points['destination_y'] = destination_point[1];
-      VEIBLIKK_route.get_route();
+      setTimeout(VEIBLIKK_route.get_route, 0);
     };
   };
 
 
-  var get_destination_point_error = function (ajax_object) {
+  var get_destination_point_error = function (error) {
+
+    t_e = performance.now();
+
+    VEIBLIKK_messages.ux_debug(
+      '#debug_data',
+      'Time destination_point_error: ' +
+      parseFloat(t_e - t0).toFixed(0) + ' ms'
+    );
+
     VEIBLIKK_messages.ux_message(
       '#status_message',
-      'Feil i til-adresse-søk: ' +
-      ajax_object.statusText + ' ' +
-      (ajax_object.errorThrown || ''),
-      'error');
+      'Feil i til-adresse-søk: ' + error,
+      'error'
+    );
   };
 
 

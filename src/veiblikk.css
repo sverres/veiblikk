@@ -90,6 +90,7 @@ input {
   background-color: #e94e1b;
 }
 
+
 .working_on_addresses,
 .working_on_images {
   background: radial-gradient(#e94e1b, rgba(255, 255, 255, 0));
@@ -165,4 +166,17 @@ input {
 .svv_image img {
   border: 1px solid;
   width: 800px;
+}
+        
+#debug_data {
+  max-width: 785px;
+  margin: auto;
+  padding-left: 15px;
+  background-color: #9d9d9c;
+}
+
+#debug_data p {
+  margin-top: 0px;
+  margin-bottom: 5px;
+  font-size: 20px;
 }
