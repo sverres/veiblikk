@@ -20,7 +20,7 @@ A prototype was built on [#hack4no 2017](http://www.hack4.no/).
 - [Mapbox GL JS](https://www.mapbox.com/mapbox-gl-js/api/)
 - [Turf - for spatial analysis](http://turfjs.org/)
 - [Proj4js - to transform coordinates](http://proj4js.org/)
-- [jQuery](https://jquery.com/)
+- [Bliss.js](http://blissfuljs.com/)
 
 ## Live version
 
@@ -38,7 +38,7 @@ Wall time for webcam module calculations (with no external dependencies - only i
 Browser |Veiblikk version |1. run |2. run |3. run |Average time (ms)
 -- |-- |-- |-- |-- |--
 IE11 11.786.15063.0 |jQuery |61511 |61867 |61092 |61490
-| |Bliss |165870 |162123 |159337 |162443
+| |Bliss |68255 |70634 |69783 |69557
 Edge 40.15063.674.0 |jQuery |38490 |34236 |33953 |35560
 | |Bliss |37309 |32896 |32768 |32768  |34324
 FireFox 58.0b11 |jQuery |22876 |23432 |22831 |23046
