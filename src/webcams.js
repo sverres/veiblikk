@@ -36,7 +36,7 @@ var VEIBLIKK_webcams = (function () {
   };
 
   var segment_length = 30; // kilometers
-  var buffer_width = 50; // meters
+  var buffer_width = 1000; // meters
 
 
   var preprocess_cctv_records = function (xhr) {
@@ -104,6 +104,24 @@ var VEIBLIKK_webcams = (function () {
       .value;
 
     cctv_locations_route.push(cctv_snapped);
+
+    if (map.getLayer('current_cctv_point')) {
+      map.removeLayer('current_cctv_point');
+      map.removeSource('current_cctv_point');
+    };
+ 
+    map.addLayer({
+      'id': 'current_cctv_point',
+      'type': 'circle',
+      'source': {
+        'type': 'geojson',
+        'data': cctv_point
+      },
+      "paint": {
+        "circle-radius": 12,
+        "circle-color": "#e94e1b"
+      }
+    });
   };
 
   var cctv_display = function () {
@@ -147,6 +165,30 @@ var VEIBLIKK_webcams = (function () {
       option_units_meters
     );
 
+    if (map.getLayer('route_buffer')) {
+      map.removeLayer('route_buffer');
+      map.removeSource('route_buffer');
+    };
+
+    map.addLayer({
+      'id': 'route_buffer',
+      'type': 'fill',
+      'source': {
+        'type': 'geojson',
+        'data': route_buffer
+      },
+      'layout': {},
+      'paint': {
+        'fill-color': '#088',
+        'fill-opacity': 0.6
+      }
+    });
+    var route_buffer_bbox = turf.bbox(route_buffer);
+    map.fitBounds(route_buffer_bbox, {
+      'padding': 25,
+      'animate': true
+    });
+
     Bliss.each(cctv_JSON
       .d2LogicalModel
       .payloadPublication
@@ -188,7 +230,7 @@ var VEIBLIKK_webcams = (function () {
       return true;
     };
 
-    setTimeout(cctvs_in_segment, 0);
+    setTimeout(cctvs_in_segment, 4000);
   };
 
 
