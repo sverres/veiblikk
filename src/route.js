@@ -13,15 +13,15 @@
  * sverre.stikbakke 27.11.2017
  */
 
-var VEIBLIKK_route = (function () {
+const VEIBLIKK_route = (function () {
 
 
-  var proj4_25833_to_4326 = function (x, y) {
+  const proj4_25833_to_4326 = function (x, y) {
     return proj4('EPSG:25833', 'EPSG:4326', [x, y]);
   };
 
 
-  var get_route = function () {
+  const get_route = function () {
 
     VEIBLIKK_messages.ux_message(
       '#status_message',
@@ -35,7 +35,7 @@ var VEIBLIKK_route = (function () {
       'no_data'
     );
 
-    var webcams = Bliss('#webcams');
+    const webcams = Bliss('#webcams');
     while (webcams.lastChild) {
       webcams.removeChild(webcams.lastChild);
     };
@@ -45,13 +45,13 @@ var VEIBLIKK_route = (function () {
       map.removeSource('svv_route');
     };
 
-    var stops =
+    const stops =
       VEIBLIKK_address.route_points['start_x'] + ',' +
       VEIBLIKK_address.route_points['start_y'] + ';' +
       VEIBLIKK_address.route_points['destination_x'] + ',' +
       VEIBLIKK_address.route_points['destination_y'];
 
-    var route_API_request =
+    const route_API_request =
       'https://www.vegvesen.no/ws/no/vegvesen/' +
       'ruteplan/routingService_v1_0/routingService' + '?' +
       'stops=' + stops + '&' +
@@ -66,9 +66,9 @@ var VEIBLIKK_route = (function () {
   };
 
 
-  var display_route_data = function (xhr) {
+  const display_route_data = function (xhr) {
 
-    var directions_JSON = xhr.response;
+    const directions_JSON = xhr.response;
 
     if (directions_JSON == false) {
       VEIBLIKK_messages.ux_message(
@@ -78,9 +78,9 @@ var VEIBLIKK_route = (function () {
       return false;
     };
 
-    var directions = JSON.parse(directions_JSON);
+    const directions = JSON.parse(directions_JSON);
 
-    var vertices = [];
+    const vertices = [];
 
     Bliss.each(directions.routes.features[0].geometry.paths[0],
       function (index, vertice) {
@@ -105,25 +105,25 @@ var VEIBLIKK_route = (function () {
         "line-width": 4
       }
     });
-    var route_bbox = turf.bbox(route);
+    const route_bbox = turf.bbox(route);
     map.fitBounds(route_bbox, {
       'padding': 25,
       'animate': false
     });
 
-    var travel_meters = directions.routes.features[0].attributes.Total_Meters;
-    var travel_km = (parseFloat(travel_meters) * 0.001).toFixed(1);
+    const travel_meters = directions.routes.features[0].attributes.Total_Meters;
+    const travel_km = (parseFloat(travel_meters) * 0.001).toFixed(1);
 
-    var travel_minutes = directions.routes.features[0].attributes.Total_Minutes;
-    var hours = Math.floor(parseFloat(travel_minutes) / 60);
-    var minutes = (parseFloat(travel_minutes) % 60).toFixed(0);
+    const travel_minutes = directions.routes.features[0].attributes.Total_Minutes;
+    let hours = Math.floor(parseFloat(travel_minutes) / 60);
+    let minutes = (parseFloat(travel_minutes) % 60).toFixed(0);
 
     if (minutes == 60) {
       minutes = 0;
       hours = hours + 1;
     };
 
-    var travel_data =
+    const travel_data =
       hours + ' t ' + minutes + ' min' +
       '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
       travel_km + ' km';
@@ -145,7 +145,7 @@ var VEIBLIKK_route = (function () {
   };
 
 
-  var get_route_error = function (error) {
+  const get_route_error = function (error) {
 
       VEIBLIKK_messages.ux_message(
       '#status_message',
@@ -154,7 +154,7 @@ var VEIBLIKK_route = (function () {
   };
 
 
-  var get_webcams = function () {
+  const get_webcams = function () {
     VEIBLIKK_webcams.import_route(route);
   };
 

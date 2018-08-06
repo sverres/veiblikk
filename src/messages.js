@@ -6,10 +6,10 @@
  * sverre.stikbakke 27.11.2017
  */
 
-var VEIBLIKK_messages = (function () {
+const VEIBLIKK_messages = (function () {
 
-  var ux_message = function (selector, message, css_class) {
-    var selector = Bliss(selector);
+  const ux_message = function (selector, message, css_class) {
+    selector = Bliss(selector);
     while (selector.classList.length > 0){
       selector.classList.remove(selector.classList[0]);
     };
@@ -17,9 +17,9 @@ var VEIBLIKK_messages = (function () {
     selector.innerHTML = message;
   };
 
-  var ux_debug = function (selector, message) {
-    var selector = Bliss(selector);
-    var msg = document.createElement('p');
+  const ux_debug = function (selector, message) {
+    selector = Bliss(selector);
+    const msg = document.createElement('p');
     msg.innerHTML = message;
     selector.appendChild(msg);
   };

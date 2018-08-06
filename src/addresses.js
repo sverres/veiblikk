@@ -10,11 +10,11 @@
  * sverre.stikbakke 27.11.2017
  */
 
-var VEIBLIKK_address = (function () {
+const VEIBLIKK_address = (function () {
 
-  var address_API = 'https://www.norgeskart.no/ws/adr.py?';
+  const address_API = 'https://www.norgeskart.no/ws/adr.py?';
 
-  var route_points = {
+  const route_points = {
     'start_x': null,
     'start_y': null,
     'destination_x': null,
@@ -22,25 +22,25 @@ var VEIBLIKK_address = (function () {
   };
 
 
-  var proj4_25832_to_25833 = function (x, y) {
+  const proj4_25832_to_25833 = function (x, y) {
     return proj4('EPSG:25832', 'EPSG:25833', [x, y]);
   };
 
 
-  var parse_address_JSON = function (address_JSON) {
-    var address = JSON.parse(address_JSON)[0];
+  const parse_address_JSON = function (address_JSON) {
+    const address = JSON.parse(address_JSON)[0];
     if (address == null) {
       return false;
     } else {
-      var address_x = parseFloat(address['LONGITUDE']);
-      var address_y = parseFloat(address['LATITUDE']);
-      var address_point = proj4_25832_to_25833(address_x, address_y);
+      const address_x = parseFloat(address['LONGITUDE']);
+      const address_y = parseFloat(address['LATITUDE']);
+      const address_point = proj4_25832_to_25833(address_x, address_y);
       return address_point;
     };
   };
 
 
-  var get_starting_point = function () {
+  const get_starting_point = function () {
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Finner fra-adresse . .',
@@ -52,10 +52,10 @@ var VEIBLIKK_address = (function () {
   };
 
 
-  var store_starting_point = function (xhr) {
+  const store_starting_point = function (xhr) {
 
-    var start_address_JSON = xhr.response;
-    var start_point = parse_address_JSON(start_address_JSON);
+    const start_address_JSON = xhr.response;
+    const start_point = parse_address_JSON(start_address_JSON);
     if (start_point == false) {
       VEIBLIKK_messages.ux_message(
         '#status_message',
@@ -70,7 +70,7 @@ var VEIBLIKK_address = (function () {
   };
 
 
-  var get_starting_point_error = function (error) {
+  const get_starting_point_error = function (error) {
 
     VEIBLIKK_messages.ux_message(
       '#status_message',
@@ -80,7 +80,7 @@ var VEIBLIKK_address = (function () {
   };
 
 
-  var get_destination_point = function () {
+  const get_destination_point = function () {
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Finner til-adresse . .',
@@ -93,10 +93,10 @@ var VEIBLIKK_address = (function () {
   };
 
 
-  var store_destination_point = function (xhr) {
+  const store_destination_point = function (xhr) {
 
-    var destination_address_JSON = xhr.response;
-    var destination_point = parse_address_JSON(destination_address_JSON);
+    const destination_address_JSON = xhr.response;
+    const destination_point = parse_address_JSON(destination_address_JSON);
     if (destination_point == false) {
       VEIBLIKK_messages.ux_message(
         '#status_message',
@@ -121,7 +121,7 @@ var VEIBLIKK_address = (function () {
   };
 
 
-  var get_destination_point_error = function (error) {
+  const get_destination_point_error = function (error) {
 
     VEIBLIKK_messages.ux_message(
       '#status_message',
