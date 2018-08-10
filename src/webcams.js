@@ -17,7 +17,7 @@
  * sverre.stikbakke 27.11.2017
  */
 
-const VEIBLIKK_webcams = (function () {
+const VEIBLIKK_webcams = (() => {
 
   let route = null;
   let route_segment = null;
@@ -39,26 +39,25 @@ const VEIBLIKK_webcams = (function () {
   const buffer_width = 50; // meters
 
 
-  const preprocess_cctv_records = function (xhr) {
+  const preprocess_cctv_records = xhr => {
     cctv_JSON = parser.parse(xhr.response);
   };
 
 
-  const get_cctv_file_error = function (error) {
+  const get_cctv_file_error = error =>
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Får ikke hentet webkamera-info. ' + error,
       'error');
-  };
 
 
-  const import_route = function (exported_route) {
+  const import_route = exported_route => {
     route = exported_route;
     setTimeout(make_segments, 0);
   };
 
 
-  const make_segments = function () {
+  const make_segments = () => {
 
     segment_index = 0;
     cctv_locations_route = [];
@@ -79,7 +78,7 @@ const VEIBLIKK_webcams = (function () {
   };
 
 
-  const store_cctv_point = function (cctv_point, cctv_record) {
+  const store_cctv_point = (cctv_point, cctv_record) => {
     const cctv_snapped = turf.nearestPointOnLine(
       route,
       cctv_point,
@@ -106,12 +105,11 @@ const VEIBLIKK_webcams = (function () {
     cctv_locations_route.push(cctv_snapped);
   };
 
-  const cctv_display = function () {
+  const cctv_display = () => {
 
-    cctv_locations_route.sort(function (distance_1, distance_2) {
-      return parseFloat(distance_1['properties']['location']) -
-        parseFloat(distance_2['properties']['location']);
-    });
+    cctv_locations_route.sort((distance_1, distance_2) =>
+      parseFloat(distance_1['properties']['location']) -
+      parseFloat(distance_2['properties']['location']));
 
     VEIBLIKK_messages.ux_message(
       '#status_message',
@@ -119,43 +117,39 @@ const VEIBLIKK_webcams = (function () {
       'idle'
     );
 
-    Bliss.each(cctv_locations_route,
-      function (index, webcam) {
-        const distance = parseFloat(webcam['properties']['location']).toFixed(0);
-        const web_image_url = webcam['properties']['stillImageUrl'];
-        const yr_url = webcam['properties']['urlLinkDescription'];
-        const camera_site = webcam['properties']['cctvCameraSite'];
+    cctv_locations_route.map(webcam => {
+      const distance = parseFloat(webcam['properties']['location']).toFixed(0);
+      const web_image_url = webcam['properties']['stillImageUrl'];
+      const yr_url = webcam['properties']['urlLinkDescription'];
+      const camera_site = webcam['properties']['cctvCameraSite'];
 
-        const svv_image = document.createElement('div');
-        svv_image.className = 'svv_image';
-        svv_image.innerHTML =
-          '<h4>' + distance + ' km - ' + camera_site + '</h4>' +
-          '<p><img src="' + web_image_url + '" /></p>' +
-          '<p><a href="' + yr_url + '" target="_blank">' +
-          decodeURI(yr_url) + '</a></p></div>';
-        const webcams = document.getElementById('webcams');
-        webcams.appendChild(svv_image);
-      }
-    );
+      const svv_image = document.createElement('div');
+      svv_image.className = 'svv_image';
+      svv_image.innerHTML =
+        '<h4>' + distance + ' km - ' + camera_site + '</h4>' +
+        '<p><img src="' + web_image_url + '" /></p>' +
+        '<p><a href="' + yr_url + '" target="_blank">' +
+        decodeURI(yr_url) + '</a></p></div>';
+      const webcams = document.getElementById('webcams');
+      webcams.appendChild(svv_image);
+    });
   };
 
 
-  const cctvs_in_segment = function () {
+  const cctvs_in_segment = () => {
     const route_buffer = turf.buffer(
       route_segment,
       buffer_width,
       option_units_meters
     );
 
-    Bliss.each(cctv_JSON
+    cctv_JSON
       .d2LogicalModel
       .payloadPublication
       .genericPublicationExtension
       .cctvSiteTablePublication
       .cctvCameraList
-      .cctvCameraMetadataRecord,
-      function (index, cctv_record) {
-
+      .cctvCameraMetadataRecord.map(cctv_record => {
         const cctv_lon = parseFloat(cctv_record
           .cctvCameraLocation
           .pointByCoordinates
@@ -173,13 +167,12 @@ const VEIBLIKK_webcams = (function () {
         if (turf.booleanPointInPolygon(cctv_point, route_buffer)) {
           store_cctv_point(cctv_point, cctv_record);
         };
-      }
-    );
+      });
     setTimeout(route_segments_loop, 0);
   };
 
 
-  const route_segments_loop = function () {
+  const route_segments_loop = () => {
     route_segment = route_segments.features[segment_index];
     segment_index++;
 
@@ -201,4 +194,4 @@ const VEIBLIKK_webcams = (function () {
     import_route: import_route
   };
 
-}());
+})();

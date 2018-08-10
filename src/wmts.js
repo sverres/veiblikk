@@ -6,7 +6,7 @@
  * sverre.stikbakke 27.11.2017
  */
 
-map.on('load', function () {
+map.on('load', () => {
 
   const minZoomThreshold = 13;
 

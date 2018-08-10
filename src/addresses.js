@@ -10,7 +10,7 @@
  * sverre.stikbakke 27.11.2017
  */
 
-const VEIBLIKK_address = (function () {
+const VEIBLIKK_address = (() => {
 
   const address_API = 'https://www.norgeskart.no/ws/adr.py?';
 
@@ -22,12 +22,11 @@ const VEIBLIKK_address = (function () {
   };
 
 
-  const proj4_25832_to_25833 = function (x, y) {
-    return proj4('EPSG:25832', 'EPSG:25833', [x, y]);
-  };
+  const proj4_25832_to_25833 = (x, y) =>
+    proj4('EPSG:25832', 'EPSG:25833', [x, y]);
 
 
-  const parse_address_JSON = function (address_JSON) {
+  const parse_address_JSON = (address_JSON) => {
     const address = JSON.parse(address_JSON)[0];
     if (address == null) {
       return false;
@@ -40,7 +39,7 @@ const VEIBLIKK_address = (function () {
   };
 
 
-  const get_starting_point = function () {
+  const get_starting_point = () => {
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Finner fra-adresse . .',
@@ -52,7 +51,7 @@ const VEIBLIKK_address = (function () {
   };
 
 
-  const store_starting_point = function (xhr) {
+  const store_starting_point = xhr => {
 
     const start_address_JSON = xhr.response;
     const start_point = parse_address_JSON(start_address_JSON);
@@ -70,17 +69,14 @@ const VEIBLIKK_address = (function () {
   };
 
 
-  const get_starting_point_error = function (error) {
-
+  const get_starting_point_error = error =>
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Feil i fra-adresse-søk: ' + error,
-      'error'
-    );
-  };
+      'error');
 
 
-  const get_destination_point = function () {
+  const get_destination_point = () => {
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Finner til-adresse . .',
@@ -93,7 +89,7 @@ const VEIBLIKK_address = (function () {
   };
 
 
-  const store_destination_point = function (xhr) {
+  const store_destination_point = xhr => {
 
     const destination_address_JSON = xhr.response;
     const destination_point = parse_address_JSON(destination_address_JSON);
@@ -121,14 +117,11 @@ const VEIBLIKK_address = (function () {
   };
 
 
-  const get_destination_point_error = function (error) {
-
+  const get_destination_point_error = error =>
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Feil i til-adresse-søk: ' + error,
-      'error'
-    );
-  };
+      'error');
 
 
   return {
@@ -136,4 +129,4 @@ const VEIBLIKK_address = (function () {
     get_starting_point: get_starting_point
   };
 
-}());
+})();

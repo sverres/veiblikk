@@ -13,15 +13,18 @@
  * sverre.stikbakke 27.11.2017
  */
 
-const VEIBLIKK_route = (function () {
+const VEIBLIKK_route = (() => {
+
+  const line_width = 4;
+  const line_color = "#e94e1b";
+  const route_padding = 25; //pixels
+  const draw_route_timeout = 700; //ms
+
+  const proj4_25833_to_4326 =
+    (x, y) => proj4('EPSG:25833', 'EPSG:4326', [x, y]);
 
 
-  const proj4_25833_to_4326 = function (x, y) {
-    return proj4('EPSG:25833', 'EPSG:4326', [x, y]);
-  };
-
-
-  const get_route = function () {
+  const get_route = () => {
 
     VEIBLIKK_messages.ux_message(
       '#status_message',
@@ -60,17 +63,19 @@ const VEIBLIKK_route = (function () {
       'route_type=best' + '&' +
       'format=json';
 
-    Bliss.fetch(route_API_request)
+    Bliss.fetch(route_API_request, {
+        responseType: 'json'
+      })
       .then(display_route_data)
       .catch(get_route_error);
   };
 
 
-  const display_route_data = function (xhr) {
+  const display_route_data = xhr => {
 
-    const directions_JSON = xhr.response;
+    const directions = xhr.response;
 
-    if (directions_JSON == false) {
+    if (directions == false) {
       VEIBLIKK_messages.ux_message(
         '#status_message',
         'Ruteberegningen gav ikke noe resultat. Ukjent feil. Avslutter.',
@@ -78,15 +83,10 @@ const VEIBLIKK_route = (function () {
       return false;
     };
 
-    const directions = JSON.parse(directions_JSON);
-
     const vertices = [];
 
-    Bliss.each(directions.routes.features[0].geometry.paths[0],
-      function (index, vertice) {
-        vertices.push(proj4_25833_to_4326(vertice[0], vertice[1]));
-      }
-    );
+    directions.routes.features[0].geometry.paths[0].map(
+      vertice => vertices.push(proj4_25833_to_4326(vertice[0], vertice[1])));
 
     route = turf.lineString(vertices);
     map.addLayer({
@@ -101,13 +101,13 @@ const VEIBLIKK_route = (function () {
         "line-cap": "round"
       },
       'paint': {
-        "line-color": "#e94e1b",
-        "line-width": 4
+        "line-color": line_color,
+        "line-width": line_width
       }
     });
     const route_bbox = turf.bbox(route);
     map.fitBounds(route_bbox, {
-      'padding': 25,
+      'padding': route_padding,
       'animate': false
     });
 
@@ -141,26 +141,22 @@ const VEIBLIKK_route = (function () {
     );
 
     // Short timeout to avoid map freeze
-    setTimeout(get_webcams, 700);
+    setTimeout(get_webcams, draw_route_timeout);
   };
 
 
-  const get_route_error = function (error) {
-
-      VEIBLIKK_messages.ux_message(
+  const get_route_error = error =>
+    VEIBLIKK_messages.ux_message(
       '#status_message',
       'Feil i ruteberegningen: ' + error,
       'error');
-  };
 
 
-  const get_webcams = function () {
-    VEIBLIKK_webcams.import_route(route);
-  };
+  const get_webcams = () => VEIBLIKK_webcams.import_route(route);
 
-  
+
   return {
     get_route: get_route
   };
 
-}());
+})();
