@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <title>veiblikk</title>
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css" rel="stylesheet" />
+  <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="veiblikk.css">
   <style>
@@ -128,9 +128,8 @@
   <section id="map"></section>
   <section id="travel_data" class="no_data">&nbsp;</section>
   <section id="webcams"></section>
-  <script src="polyfill.js"></script>
-  <script src="https://cdn.polyfill.io/v2/polyfill.js?features=blissfuljs"></script>
-  <script src="https://cdn.jsdelivr.net/gh/leaverou/bliss@1.0.5/bliss.shy.js" integrity="sha256-Im0ZtMB0y5ppTWyRjoQtL8t1xNOR9y3QbwwMk20h7Yc="
+  <script src="https://cdn.jsdelivr.net/gh/leaverou/bliss@1.0.5/bliss.shy.js" 
+    integrity="sha256-Im0ZtMB0y5ppTWyRjoQtL8t1xNOR9y3QbwwMk20h7Yc="
     crossorigin="anonymous"></script>
   <script>
     var start_address = null;
@@ -157,10 +156,10 @@
       }
     );
   </script>
-  <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js"></script>
+  <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js"></script>
   <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoic3ZlcnJlc3QiLCJhIjoiY2l1Y2VqcmRzMDAxMTJ0cGl6c3ZteGozMyJ9.ieY0kEubUisIWVVwjZiuBg';
-    var map = new mapboxgl.Map({
+    const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v10',
       center: [10, 60],
@@ -169,9 +168,9 @@
     map.setMaxZoom(18);
   </script>
   <script src="wmts.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fast-xml-parser/2.8.3/parser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fast-xml-parser/3.10.0/parser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.6/turf.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
   <script src="https://epsg.io/25832.js"></script>
   <script src="https://epsg.io/25833.js"></script>
   <script src="https://epsg.io/4324.js"></script>
