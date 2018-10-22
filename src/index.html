@@ -131,31 +131,6 @@
   <script src="https://cdn.jsdelivr.net/gh/leaverou/bliss@1.0.5/bliss.shy.js" 
     integrity="sha256-Im0ZtMB0y5ppTWyRjoQtL8t1xNOR9y3QbwwMk20h7Yc="
     crossorigin="anonymous"></script>
-  <script>
-    var start_address = null;
-    var destination_address = null;
-
-    Bliss('#search_button').addEventListener(
-      'click',
-      function () {
-        start_address = Bliss('#start_address').value;
-        destination_address = Bliss('#destination_address').value;
-        VEIBLIKK_address.get_starting_point();
-      }
-    );
-    Bliss("#about_link").addEventListener(
-      'click',
-      function () {
-        Bliss("#about").style.visibility = 'visible';
-      }
-    );
-    Bliss("#about").addEventListener(
-      'click',
-      function () {
-        Bliss("#about").style.visibility = 'hidden';
-      }
-    );
-  </script>
   <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js"></script>
   <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoic3ZlcnJlc3QiLCJhIjoiY2l1Y2VqcmRzMDAxMTJ0cGl6c3ZteGozMyJ9.ieY0kEubUisIWVVwjZiuBg';
@@ -175,9 +150,7 @@
   <script src="https://epsg.io/25833.js"></script>
   <script src="https://epsg.io/4324.js"></script>
   <script src="messages.js" charset="utf-8"></script>
-  <script src="webcams.js" charset="utf-8"></script>
-  <script src="route.js" charset="utf-8"></script>
-  <script src="addresses.js" charset="utf-8"></script>
+  <script type="module" src="./index.js" charset="utf-8"></script>
 
 </body>
 
