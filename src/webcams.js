@@ -31,6 +31,7 @@ const option_units_meters = {
   units: 'meters'
 };
 
+
 const option_units_kilometers = {
   units: 'kilometers'
 };
@@ -49,6 +50,11 @@ const get_cctv_file_error = error =>
     '#status_message',
     'Får ikke hentet webkamera-info. ' + error,
     'error');
+
+
+Bliss.fetch('GetCCTVSiteTable.xml')
+  .then(preprocess_cctv_records)
+  .catch(get_cctv_file_error);
 
 
 const make_segments = () => {
@@ -72,61 +78,16 @@ const make_segments = () => {
 };
 
 
-const store_cctv_point = (cctv_point, cctv_record) => {
-  const cctv_snapped = turf.nearestPointOnLine(
-    route,
-    cctv_point,
-    option_units_kilometers
-  );
+const route_segments_loop = () => {
+  route_segment = route_segments.features[segment_index];
+  segment_index++;
 
-  cctv_snapped['properties']['stillImageUrl'] = cctv_record
-    .cctvStillImageService
-    .stillImageUrl
-    .urlLinkAddress;
+  if (segment_index > route_segments.features.length) {
+    setTimeout(cctv_display, 0);
+    return true;
+  };
 
-  cctv_snapped['properties']['urlLinkDescription'] = cctv_record
-    .cctvStillImageService
-    .stillImageUrl
-    .urlLinkDescription
-    .values
-    .value;
-
-  cctv_snapped['properties']['cctvCameraSite'] = cctv_record
-    .cctvCameraSiteLocalDescription
-    .values
-    .value;
-
-  cctv_locations_route.push(cctv_snapped);
-};
-
-const cctv_display = () => {
-
-  cctv_locations_route.sort((distance_1, distance_2) =>
-    parseFloat(distance_1['properties']['location']) -
-    parseFloat(distance_2['properties']['location']));
-
-  ux_message(
-    '#status_message',
-    'Fant ' + cctv_locations_route.length + ' webkamerabilder',
-    'idle'
-  );
-
-  cctv_locations_route.map(webcam => {
-    const distance = parseFloat(webcam['properties']['location']).toFixed(0);
-    const web_image_url = webcam['properties']['stillImageUrl'];
-    const yr_url = webcam['properties']['urlLinkDescription'];
-    const camera_site = webcam['properties']['cctvCameraSite'];
-
-    const svv_image = document.createElement('div');
-    svv_image.className = 'svv_image';
-    svv_image.innerHTML =
-      '<h4>' + distance + ' km - ' + camera_site + '</h4>' +
-      '<p><img src="' + web_image_url + '" /></p>' +
-      '<p><a href="' + yr_url + '" target="_blank">' +
-      decodeURI(yr_url) + '</a></p></div>';
-    const webcams = document.getElementById('webcams');
-    webcams.appendChild(svv_image);
-  });
+  setTimeout(cctvs_in_segment, 0);
 };
 
 
@@ -166,22 +127,63 @@ const cctvs_in_segment = () => {
 };
 
 
-const route_segments_loop = () => {
-  route_segment = route_segments.features[segment_index];
-  segment_index++;
+const store_cctv_point = (cctv_point, cctv_record) => {
+  const cctv_snapped = turf.nearestPointOnLine(
+    route,
+    cctv_point,
+    option_units_kilometers
+  );
 
-  if (segment_index > route_segments.features.length) {
-    setTimeout(cctv_display, 0);
-    return true;
-  };
+  cctv_snapped['properties']['stillImageUrl'] = cctv_record
+    .cctvStillImageService
+    .stillImageUrl
+    .urlLinkAddress;
 
-  setTimeout(cctvs_in_segment, 0);
+  cctv_snapped['properties']['urlLinkDescription'] = cctv_record
+    .cctvStillImageService
+    .stillImageUrl
+    .urlLinkDescription
+    .values
+    .value;
+
+  cctv_snapped['properties']['cctvCameraSite'] = cctv_record
+    .cctvCameraSiteLocalDescription
+    .values
+    .value;
+
+  cctv_locations_route.push(cctv_snapped);
 };
 
 
-Bliss.fetch('GetCCTVSiteTable.xml')
-  .then(preprocess_cctv_records)
-  .catch(get_cctv_file_error);
+const cctv_display = () => {
+
+  cctv_locations_route.sort((distance_1, distance_2) =>
+    parseFloat(distance_1['properties']['location']) -
+    parseFloat(distance_2['properties']['location']));
+
+  ux_message(
+    '#status_message',
+    'Fant ' + cctv_locations_route.length + ' webkamerabilder',
+    'idle'
+  );
+
+  cctv_locations_route.map(webcam => {
+    const distance = parseFloat(webcam['properties']['location']).toFixed(0);
+    const web_image_url = webcam['properties']['stillImageUrl'];
+    const yr_url = webcam['properties']['urlLinkDescription'];
+    const camera_site = webcam['properties']['cctvCameraSite'];
+
+    const svv_image = document.createElement('div');
+    svv_image.className = 'svv_image';
+    svv_image.innerHTML =
+      '<h4>' + distance + ' km - ' + camera_site + '</h4>' +
+      '<p><img src="' + web_image_url + '" /></p>' +
+      '<p><a href="' + yr_url + '" target="_blank">' +
+      decodeURI(yr_url) + '</a></p></div>';
+    const webcams = document.getElementById('webcams');
+    webcams.appendChild(svv_image);
+  });
+};
 
 
 export { make_segments };
