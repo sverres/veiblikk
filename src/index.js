@@ -1,3 +1,14 @@
+/**
+ * Module index
+ * 
+ * App entry point. Adds event listeners.
+ * Calls get_starting_point.
+ * 
+ * https://github.com/sverres/veiblikk
+ * 
+ * sverre.stikbakke 22.10.2018
+ */
+
 import {get_starting_point} from "./addresses.js";
 
 let start_address = null;

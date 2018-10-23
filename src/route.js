@@ -1,12 +1,10 @@
 /**
- * Module VEIBLIKK_route
+ * Module route
  * 
  * Gets route data from route API.
  * 
  * - displays route on map
- * - displays route data
- * - exports route data to webcams module 
- *    with VEIBLIKK_webcams.import_route function
+ * - exports route data 
  * 
  * https://github.com/sverres/veiblikk
  * 
@@ -15,6 +13,7 @@
 
 import { route_points } from "./addresses.js";
 import { make_segments } from "./webcams.js";
+import { ux_message } from "./messages.js"
 
 let route = null;
 
@@ -29,13 +28,13 @@ const proj4_25833_to_4326 =
 
 const get_route = () => {
 
-  VEIBLIKK_messages.ux_message(
+  ux_message(
     '#status_message',
     'Finner reiserute . .',
     'working_on_route'
   );
 
-  VEIBLIKK_messages.ux_message(
+  ux_message(
     '#travel_data',
     '&nbsp;',
     'no_data'
@@ -79,7 +78,7 @@ const display_route_data = xhr => {
   var directions = xhr.response;
 
   if (directions == false) {
-    VEIBLIKK_messages.ux_message(
+    ux_message(
       '#status_message',
       'Ruteberegningen gav ikke noe resultat. Ukjent feil. Avslutter.',
       'error');
@@ -132,13 +131,13 @@ const display_route_data = xhr => {
     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
     travel_km + ' km';
 
-  VEIBLIKK_messages.ux_message(
+  ux_message(
     '#travel_data',
     travel_data,
     'show_data'
   );
 
-  VEIBLIKK_messages.ux_message(
+  ux_message(
     '#status_message',
     'Finner webkamerabilder . . . .',
     'working_on_images'
@@ -150,7 +149,7 @@ const display_route_data = xhr => {
 
 
 const get_route_error = error =>
-  VEIBLIKK_messages.ux_message(
+  ux_message(
     '#status_message',
     'Feil i ruteberegningen: ' + error,
     'error');

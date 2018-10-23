@@ -1,5 +1,5 @@
 /**
- * Module VEIBLIKK_address
+ * Module addresses
  * 
  * Gets coordinates for route endpoints.
  * 
@@ -12,6 +12,8 @@
 
 import { start_address, destination_address } from "./index.js";
 import { get_route } from "./route.js";
+import { ux_message } from "./messages.js"
+
 
 const address_API = 'https://www.norgeskart.no/ws/adr.py?';
 
@@ -41,7 +43,7 @@ const parse_address_JSON = (address_JSON) => {
 
 
 const get_starting_point = () => {
-  VEIBLIKK_messages.ux_message(
+  ux_message(
     '#status_message',
     'Finner fra-adresse . .',
     'working_on_addresses');
@@ -57,7 +59,7 @@ const store_starting_point = xhr => {
   const start_address_JSON = xhr.response;
   const start_point = parse_address_JSON(start_address_JSON);
   if (start_point == false) {
-    VEIBLIKK_messages.ux_message(
+    ux_message(
       '#status_message',
       'Finner ikke fra-adresse (gatenavn husnummer, sted)',
       'error');
@@ -71,14 +73,14 @@ const store_starting_point = xhr => {
 
 
 const get_starting_point_error = error =>
-  VEIBLIKK_messages.ux_message(
+  ux_message(
     '#status_message',
     'Feil i fra-adresse-søk: ' + error,
     'error');
 
 
 const get_destination_point = () => {
-  VEIBLIKK_messages.ux_message(
+  ux_message(
     '#status_message',
     'Finner til-adresse . .',
     'working_on_addresses'
@@ -95,7 +97,7 @@ const store_destination_point = xhr => {
   const destination_address_JSON = xhr.response;
   const destination_point = parse_address_JSON(destination_address_JSON);
   if (destination_point == false) {
-    VEIBLIKK_messages.ux_message(
+    ux_message(
       '#status_message',
       'Finner ikke til-adresse (gatenavn husnummer, sted)',
       'error'
@@ -104,7 +106,7 @@ const store_destination_point = xhr => {
   } else if (turf.booleanEqual(
     turf.point(destination_point),
     turf.point([route_points['start_x'], route_points['start_y']]))) {
-    VEIBLIKK_messages.ux_message(
+    ux_message(
       '#status_message',
       'Fra- og til-adresse gir samme resultat',
       'error'
@@ -119,7 +121,7 @@ const store_destination_point = xhr => {
 
 
 const get_destination_point_error = error =>
-  VEIBLIKK_messages.ux_message(
+  ux_message(
     '#status_message',
     'Feil i til-adresse-søk: ' + error,
     'error');

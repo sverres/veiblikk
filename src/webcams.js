@@ -1,5 +1,5 @@
 /**
- * Module VEIBLIKK_webcams
+ * Module webcams
  * 
  * Gets webcam locations along route.
  * 
@@ -18,6 +18,7 @@
  */
 
 import { route } from "./route.js";
+import { ux_message } from "./messages.js";
 
 let route_segment = null;
 let route_segments = null;
@@ -44,7 +45,7 @@ const preprocess_cctv_records = xhr => {
 
 
 const get_cctv_file_error = error =>
-  VEIBLIKK_messages.ux_message(
+  ux_message(
     '#status_message',
     'Får ikke hentet webkamera-info. ' + error,
     'error');
@@ -104,7 +105,7 @@ const cctv_display = () => {
     parseFloat(distance_1['properties']['location']) -
     parseFloat(distance_2['properties']['location']));
 
-  VEIBLIKK_messages.ux_message(
+  ux_message(
     '#status_message',
     'Fant ' + cctv_locations_route.length + ' webkamerabilder',
     'idle'
