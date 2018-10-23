@@ -1,9 +1,8 @@
 /**
  * Module addresses
  * 
- * Gets coordinates for route endpoints.
- * 
- * - calls VEIBLIKK_route.get_route;
+ * Gets coordinates for route endpoints:
+ * - calls get_route;
  * 
  * https://github.com/sverres/veiblikk
  * 

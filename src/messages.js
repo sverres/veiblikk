@@ -7,7 +7,7 @@
  */
 
 const ux_message = (selector, message, css_class) => {
-  selector = Bliss(selector);
+  selector = document.querySelector(selector);
   while (selector.classList.length > 0) {
     selector.classList.remove(selector.classList[0]);
   };

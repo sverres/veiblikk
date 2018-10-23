@@ -40,7 +40,7 @@ const get_route = () => {
     'no_data'
   );
 
-  const webcams = Bliss('#webcams');
+  const webcams = document.querySelector('#webcams');
   while (webcams.lastChild) {
     webcams.removeChild(webcams.lastChild);
   };
@@ -57,13 +57,13 @@ const get_route = () => {
     route_points['destination_y'];
 
   const route_API_request =
-    'https://www.vegvesen.no/ws/no/vegvesen/' +
-    'ruteplan/routingService_v1_0/routingService' + '?' +
-    'stops=' + stops + '&' +
-    'returnDirections=false' + '&' +
-    'returnGeometry=true' + '&' +
-    'route_type=best' + '&' +
-    'format=json';
+    'https://www.vegvesen.no/ws/no/vegvesen/'
+    + 'ruteplan/routingService_v1_0/routingService?'
+    + 'stops=' + stops + '&'
+    + 'returnDirections=false&'
+    + 'returnGeometry=true&'
+    + 'route_type=best&'
+    + 'format=json';
 
   Bliss.fetch(route_API_request, {
     responseType: 'json'
@@ -84,7 +84,6 @@ const display_route_data = xhr => {
       'error');
     return false;
   };
-
 
   const vertices = [];
 
