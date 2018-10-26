@@ -63,25 +63,22 @@
     </p>
     <p>Veiblikk krever en relativt ny nettleser for å virke. IE 11 virker pr. 05.12.17.</p>
   </aside>
-  <section id="debug_data"></section>
   <section id="map"></section>
   <section id="travel_data" class="no_data">&nbsp;</section>
   <section id="webcams"></section>
-  <script src="https://cdn.jsdelivr.net/gh/leaverou/bliss@1.0.5/bliss.shy.js" 
-    integrity="sha256-Im0ZtMB0y5ppTWyRjoQtL8t1xNOR9y3QbwwMk20h7Yc="
-    crossorigin="anonymous"></script>
   <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js"></script>
   <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoic3ZlcnJlc3QiLCJhIjoiY2l1Y2VqcmRzMDAxMTJ0cGl6c3ZteGozMyJ9.ieY0kEubUisIWVVwjZiuBg';
     const map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/satellite-v9',
+      style: 'mapbox://styles/mapbox/streets-v10',
       center: [10, 60],
       zoom: 5,
     });
     map.setMaxZoom(18);
   </script>
   <script src="wmts.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/leaverou/bliss@1.0.5/bliss.shy.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fast-xml-parser/3.10.0/parser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.6/turf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>

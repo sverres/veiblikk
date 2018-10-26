@@ -8,7 +8,7 @@
 
 map.on('load', () => {
 
-  const minZoomThreshold = 16;
+  const minZoomThreshold = 13;
 
   map.addLayer({
     'id': 'topo2',
