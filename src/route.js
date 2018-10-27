@@ -27,7 +27,6 @@ const proj4_25833_to_4326 =
 
 
 const get_route = () => {
-
   ux_message(
     '#status_message',
     'Finner reiserute . .',
@@ -65,16 +64,15 @@ const get_route = () => {
     + 'route_type=best&'
     + 'format=json';
 
-  Bliss.fetch(route_API_request, {
-    responseType: 'json'
-  })
+  const route_API_response_type = { responseType: 'json' };
+
+  Bliss.fetch(route_API_request, route_API_response_type)
     .then(display_route_data)
     .catch(get_route_error);
 };
 
 
 const display_route_data = xhr => {
-
   var directions = xhr.response;
 
   if (directions == false) {
@@ -142,7 +140,7 @@ const display_route_data = xhr => {
     'working_on_images'
   );
 
-  // Short timeout to avoid map freeze
+  // Short timeout to avoid ui freeze
   setTimeout(make_segments, draw_route_timeout);
 };
 

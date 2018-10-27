@@ -25,12 +25,11 @@ let route_segments = null;
 let segment_index = null;
 
 let cctv_JSON = null;
-let cctv_locations_route = null;
+let cctv_locations_on_route = null;
 
 const option_units_meters = {
   units: 'meters'
 };
-
 
 const option_units_kilometers = {
   units: 'kilometers'
@@ -58,9 +57,8 @@ Bliss.fetch('GetCCTVSiteTable.xml')
 
 
 const make_segments = () => {
-
   segment_index = 0;
-  cctv_locations_route = [];
+  cctv_locations_on_route = [];
 
   /** 
    * Split route in short segments to increase
@@ -80,18 +78,18 @@ const make_segments = () => {
 
 const route_segments_loop = () => {
   route_segment = route_segments.features[segment_index];
-  segment_index++;
+  segment_index = segment_index + 1;
 
   if (segment_index > route_segments.features.length) {
-    setTimeout(cctv_display, 0);
+    setTimeout(display_cctvs, 0);
     return true;
   };
 
-  setTimeout(cctvs_in_segment, 0);
+  setTimeout(find_cctvs_in_segment, 0);
 };
 
 
-const cctvs_in_segment = () => {
+const find_cctvs_in_segment = () => {
   const route_buffer = turf.buffer(
     route_segment,
     buffer_width,
@@ -151,23 +149,22 @@ const store_cctv_point = (cctv_point, cctv_record) => {
     .values
     .value;
 
-  cctv_locations_route.push(cctv_snapped);
+  cctv_locations_on_route.push(cctv_snapped);
 };
 
 
-const cctv_display = () => {
-
-  cctv_locations_route.sort((distance_1, distance_2) =>
+const display_cctvs = () => {
+  cctv_locations_on_route.sort((distance_1, distance_2) =>
     parseFloat(distance_1['properties']['location']) -
     parseFloat(distance_2['properties']['location']));
 
   ux_message(
     '#status_message',
-    'Fant ' + cctv_locations_route.length + ' webkamerabilder',
+    'Fant ' + cctv_locations_on_route.length + ' webkamerabilder',
     'idle'
   );
 
-  cctv_locations_route.map(webcam => {
+  cctv_locations_on_route.map(webcam => {
     const distance = parseFloat(webcam['properties']['location']).toFixed(0);
     const web_image_url = webcam['properties']['stillImageUrl'];
     const yr_url = webcam['properties']['urlLinkDescription'];
