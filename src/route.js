@@ -4,7 +4,20 @@
  * Gets route data from route API.
  * 
  * - displays route on map
- * - exports route data 
+ * - exports route data
+ * 
+ * Normal flow:
+ * - route_points object imported from adresses module
+ * - get_route is called from store_destination_point
+ *   in adresses module
+ * - display_route updates the map
+ * - exports route GeoJSON object
+ * 
+ * Side effects:
+ * - data from previous calculations removed from map and DOM tree
+ * - status messages to ui
+ * - route data to ui
+ * - map update
  * 
  * https://github.com/sverres/veiblikk
  * 
@@ -17,7 +30,7 @@ import { ux_message } from "./messages.js"
 
 let route = null;
 
-const line_width = 4;
+const line_width = 4; //pixels
 const line_color = "#e94e1b";
 const route_padding = 25; //pixels
 const draw_route_timeout = 700; //ms
@@ -64,15 +77,15 @@ const get_route = () => {
     + 'route_type=best&'
     + 'format=json';
 
-  const route_API_response_type = { responseType: 'json' };
+  const route_API_response_type = { 'responseType': 'json' };
 
   Bliss.fetch(route_API_request, route_API_response_type)
-    .then(display_route_data)
+    .then(display_route)
     .catch(get_route_error);
 };
 
 
-const display_route_data = xhr => {
+const display_route = xhr => {
   var directions = xhr.response;
 
   if (directions == false) {
@@ -132,12 +145,6 @@ const display_route_data = xhr => {
     '#travel_data',
     travel_data,
     'show_data'
-  );
-
-  ux_message(
-    '#status_message',
-    'Finner webkamerabilder . . . .',
-    'working_on_images'
   );
 
   // Short timeout to avoid ui freeze

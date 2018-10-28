@@ -1,8 +1,10 @@
 /**
  * Module index
  * 
- * App entry point. Adds event listeners.
- * Calls get_starting_point.
+ * App entry point. 
+ * Adds event listeners to ui.
+ * Calls get_starting_point in addresses module.
+ * Exports addresses from text boxes.
  * 
  * https://github.com/sverres/veiblikk
  * 

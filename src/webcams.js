@@ -12,6 +12,24 @@
  * 
  * Webcam location info is in static XML file.
  * 
+ * Normal flow:
+ * - Bliss.fetch runs at page load to get GetCCTVSiteTable.xml
+ * - preprocess_cctv_records invoked from Bliss.fetch
+ * - imports route GeoJSON object from route module
+ * - make_segments called from display_route in route module
+ * - route_segments_loop iterates over segments with ..
+ * - find_cctvs_in_segment, which 
+ * - store_cctv_point and finally
+ * - display_cctvs manipulates DOM tree to show webcam images
+ * 
+ * Side effects:
+ * - status messages to ui
+ * - DOM tree updates
+ * 
+ * Normal flow is iterrupted by setTimeout to put function 
+ * calls in event queue. This will keep ui responsive for
+ * user input, e.g. map zoom. 
+ * 
  * https://github.com/sverres/veiblikk
  * 
  * sverre.stikbakke 27.11.2017
@@ -38,6 +56,8 @@ const option_units_kilometers = {
 const segment_length = 30; // kilometers
 const buffer_width = 50; // meters
 
+const default_timeout = 0; //ms
+
 
 const preprocess_cctv_records = xhr => {
   cctv_JSON = parser.parse(xhr.response);
@@ -60,6 +80,12 @@ const make_segments = () => {
   segment_index = 0;
   cctv_locations_on_route = [];
 
+  ux_message(
+    '#status_message',
+    'Finner webkamerabilder . . . .',
+    'working_on_images'
+  );
+
   /** 
    * Split route in short segments to increase
    * performance in PointInPolygon function.
@@ -72,20 +98,26 @@ const make_segments = () => {
     option_units_kilometers
   );
 
-  setTimeout(route_segments_loop, 0);
+  setTimeout(route_segments_loop, default_timeout);
 };
 
 
 const route_segments_loop = () => {
+
+  /** 
+   * This function puts each itereration 
+   * in the event queue.
+   */
+
   route_segment = route_segments.features[segment_index];
   segment_index = segment_index + 1;
 
   if (segment_index > route_segments.features.length) {
-    setTimeout(display_cctvs, 0);
+    setTimeout(display_cctvs, default_timeout);
     return true;
   };
 
-  setTimeout(find_cctvs_in_segment, 0);
+  setTimeout(find_cctvs_in_segment, default_timeout);
 };
 
 
@@ -121,7 +153,7 @@ const find_cctvs_in_segment = () => {
         store_cctv_point(cctv_point, cctv_record);
       };
     });
-  setTimeout(route_segments_loop, 0);
+  setTimeout(route_segments_loop, default_timeout);
 };
 
 

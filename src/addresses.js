@@ -2,7 +2,23 @@
  * Module addresses
  * 
  * Gets coordinates for route endpoints:
- * - calls get_route;
+ * 
+ * Normal flow:
+ * - imports adresses from index module
+ * - imports get_route from route module
+ * - get_starting_point called from click event in index module
+ * - store_starting_point
+ * - get_destination_point
+ * - store_destination-point which finally calls
+ *   get_route in route module
+ * - exports route_points object, get_starting_point function
+ * 
+ * Helper functions:
+ * - proj4_25832_to_25833 to reproject address coordinates
+ * - parse_address_JSON to extract coordinates from API response
+ * 
+ * Side effects:
+ * - status messages to ui
  * 
  * https://github.com/sverres/veiblikk
  * 
