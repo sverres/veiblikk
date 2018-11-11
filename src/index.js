@@ -21,19 +21,16 @@ search_button.addEventListener('click', () => {
   start_address = document.querySelector('#start_address').value;
   destination_address = document.querySelector('#destination_address').value;
   get_starting_point();
-}
-);
+});
 
 const about_link = document.querySelector("#about_link");
 about_link.addEventListener('click', () => {
   document.querySelector("#about").style.visibility = 'visible';
-}
-);
+});
 
 const about = document.querySelector("#about");
 about.addEventListener('click', () => {
   document.querySelector("#about").style.visibility = 'hidden';
-}
-);
+});
 
 export { start_address, destination_address };

@@ -2,9 +2,7 @@
  * Module route
  * 
  * Gets route data from route API.
- * 
- * - displays route on map
- * - exports route data
+ * Displays route on map
  * 
  * Normal flow:
  * - route_points object imported from adresses module
@@ -24,11 +22,8 @@
  * sverre.stikbakke 27.11.2017
  */
 
-import { route_points } from "./addresses.js";
 import { make_segments } from "./webcams.js";
 import { ux_message } from "./messages.js"
-
-let route = null;
 
 const line_width = 4; //pixels
 const line_color = "#e94e1b";
@@ -39,7 +34,7 @@ const proj4_25833_to_4326 =
   (x, y) => proj4('EPSG:25833', 'EPSG:4326', [x, y]);
 
 
-const get_route = () => {
+const get_route = route_points => {
   ux_message(
     '#status_message',
     'Finner reiserute . .',
@@ -101,7 +96,7 @@ const display_route = xhr => {
   directions.routes.features[0].geometry.paths[0].map(
     vertice => vertices.push(proj4_25833_to_4326(vertice[0], vertice[1])));
 
-  route = turf.lineString(vertices);
+  const route = turf.lineString(vertices);
   map.addLayer({
     'id': 'svv_route',
     'type': 'line',
@@ -148,7 +143,8 @@ const display_route = xhr => {
   );
 
   // Short timeout to avoid ui freeze
-  setTimeout(make_segments, draw_route_timeout);
+  setTimeout(() => make_segments(route),
+    draw_route_timeout);
 };
 
 
@@ -159,4 +155,4 @@ const get_route_error = error =>
     'error');
 
 
-export { get_route, route };
+export { get_route };

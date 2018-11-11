@@ -15,7 +15,6 @@
  * Normal flow:
  * - Bliss.fetch runs at page load to get GetCCTVSiteTable.xml
  * - preprocess_cctv_records invoked from Bliss.fetch
- * - imports route GeoJSON object from route module
  * - make_segments called from display_route in route module
  * - route_segments_loop iterates over segments with ..
  * - find_cctvs_in_segment, which 
@@ -35,7 +34,6 @@
  * sverre.stikbakke 27.11.2017
  */
 
-import { route } from "./route.js";
 import { ux_message } from "./messages.js";
 
 let route_segment = null;
@@ -76,7 +74,8 @@ Bliss.fetch('GetCCTVSiteTable.xml')
   .catch(get_cctv_file_error);
 
 
-const make_segments = () => {
+const make_segments = (route) => {
+
   segment_index = 0;
   cctv_locations_on_route = [];
 
@@ -98,11 +97,12 @@ const make_segments = () => {
     option_units_kilometers
   );
 
-  setTimeout(route_segments_loop, default_timeout);
+  setTimeout(() => route_segments_loop(route),
+    default_timeout);
 };
 
 
-const route_segments_loop = () => {
+const route_segments_loop = route => {
 
   /** 
    * This function puts each itereration 
@@ -117,11 +117,12 @@ const route_segments_loop = () => {
     return true;
   };
 
-  setTimeout(find_cctvs_in_segment, default_timeout);
+  setTimeout(() => find_cctvs_in_segment(route),
+    default_timeout);
 };
 
 
-const find_cctvs_in_segment = () => {
+const find_cctvs_in_segment = route => {
   const route_buffer = turf.buffer(
     route_segment,
     buffer_width,
@@ -150,14 +151,15 @@ const find_cctvs_in_segment = () => {
       const cctv_point = turf.point([cctv_lon, cctv_lat]);
 
       if (turf.booleanPointInPolygon(cctv_point, route_buffer)) {
-        store_cctv_point(cctv_point, cctv_record);
+        store_cctv_point(cctv_point, cctv_record, route);
       };
     });
-  setTimeout(route_segments_loop, default_timeout);
+  setTimeout(() => route_segments_loop(route),
+    default_timeout);
 };
 
 
-const store_cctv_point = (cctv_point, cctv_record) => {
+const store_cctv_point = (cctv_point, cctv_record, route) => {
   const cctv_snapped = turf.nearestPointOnLine(
     route,
     cctv_point,

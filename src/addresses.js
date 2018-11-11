@@ -127,7 +127,7 @@ const store_destination_point = xhr => {
   } else {
     route_points['destination_x'] = destination_point[0];
     route_points['destination_y'] = destination_point[1];
-    setTimeout(get_route, 0);
+    setTimeout(() => get_route(route_points), 0);
   };
 };
 
@@ -139,4 +139,4 @@ const get_destination_point_error = error =>
     'error');
 
 
-export { get_starting_point, route_points };
+export { get_starting_point };
