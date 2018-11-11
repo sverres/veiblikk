@@ -19,7 +19,6 @@
 
 var VEIBLIKK_webcams = (function () {
 
-  var route = null;
   var route_segment = null;
   var route_segments = null;
   var segment_index = null;
@@ -52,13 +51,7 @@ var VEIBLIKK_webcams = (function () {
   };
 
 
-  var import_route = function (exported_route) {
-    route = exported_route;
-    setTimeout(make_segments, 0);
-  };
-
-
-  var make_segments = function () {
+  var make_segments = function (route) {
 
     segment_index = 0;
     cctv_locations_route = [];
@@ -198,7 +191,7 @@ var VEIBLIKK_webcams = (function () {
 
 
   return {
-    import_route: import_route
+    make_segments: make_segments
   };
 
 }());

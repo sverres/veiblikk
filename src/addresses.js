@@ -105,8 +105,8 @@ var VEIBLIKK_address = (function () {
       );
       return false;
     } else if (turf.booleanEqual(
-        turf.point(destination_point),
-        turf.point([route_points['start_x'], route_points['start_y']]))) {
+      turf.point(destination_point),
+      turf.point([route_points['start_x'], route_points['start_y']]))) {
       VEIBLIKK_messages.ux_message(
         '#status_message',
         'Fra- og til-adresse gir samme resultat',
@@ -116,7 +116,9 @@ var VEIBLIKK_address = (function () {
     } else {
       route_points['destination_x'] = destination_point[0];
       route_points['destination_y'] = destination_point[1];
-      setTimeout(VEIBLIKK_route.get_route, 0);
+      setTimeout(function () {
+        VEIBLIKK_route.get_route(route_points);
+      }, 0);
     };
   };
 
@@ -132,7 +134,6 @@ var VEIBLIKK_address = (function () {
 
 
   return {
-    route_points: route_points,
     get_starting_point: get_starting_point
   };
 

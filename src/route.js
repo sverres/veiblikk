@@ -5,8 +5,6 @@
  * 
  * - displays route on map
  * - displays route data
- * - exports route data to webcams module 
- *    with VEIBLIKK_webcams.import_route function
  * 
  * https://github.com/sverres/veiblikk
  * 
@@ -21,7 +19,7 @@ var VEIBLIKK_route = (function () {
   };
 
 
-  var get_route = function () {
+  var get_route = function (route_points) {
 
     VEIBLIKK_messages.ux_message(
       '#status_message',
@@ -46,10 +44,10 @@ var VEIBLIKK_route = (function () {
     };
 
     var stops =
-      VEIBLIKK_address.route_points['start_x'] + ',' +
-      VEIBLIKK_address.route_points['start_y'] + ';' +
-      VEIBLIKK_address.route_points['destination_x'] + ',' +
-      VEIBLIKK_address.route_points['destination_y'];
+      route_points['start_x'] + ',' +
+      route_points['start_y'] + ';' +
+      route_points['destination_x'] + ',' +
+      route_points['destination_y'];
 
     var route_API_request =
       'https://www.vegvesen.no/ws/no/vegvesen/' +
@@ -141,24 +139,21 @@ var VEIBLIKK_route = (function () {
     );
 
     // Short timeout to avoid map freeze
-    setTimeout(get_webcams, 700);
+    setTimeout(function () {
+      VEIBLIKK_webcams.make_segments(route);
+    }, 700);
   };
 
 
   var get_route_error = function (error) {
 
-      VEIBLIKK_messages.ux_message(
+    VEIBLIKK_messages.ux_message(
       '#status_message',
       'Feil i ruteberegningen: ' + error,
       'error');
   };
 
 
-  var get_webcams = function () {
-    VEIBLIKK_webcams.import_route(route);
-  };
-
-  
   return {
     get_route: get_route
   };
