@@ -12,8 +12,8 @@
  * 
  * Side effects:
  * - data from previous calculations removed from map and DOM tree
- * - status messages to ui
- * - route data to ui
+ * - status messages to UI
+ * - route data to UI
  * - map update
  * 
  * https://github.com/sverres/veiblikk
@@ -141,7 +141,7 @@ const VEIBLIKK_route = (function () {
       'show_data'
     );
 
-    // Short timeout to avoid ui freeze
+    // Short timeout to avoid UI freeze
     setTimeout(function () {
       VEIBLIKK_webcams.make_segments(route)
     }, draw_route_timeout);

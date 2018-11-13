@@ -15,7 +15,7 @@
  * - parse_address_JSON to extract coordinates from API response
  * 
  * Side effects:
- * - status messages to ui
+ * - status messages to UI
  * 
  * https://github.com/sverres/veiblikk
  * 
@@ -55,14 +55,17 @@ const VEIBLIKK_address = (function () {
   };
 
 
-  const get_starting_point = function (index_start_address, index_destination_address) {
+  const get_starting_point = function (
+    ui_input_start_address,
+    ui_input_destination_address
+  ) {
     VEIBLIKK_messages.ux_message(
       '#status_message',
       'Finner fra-adresse . .',
       'working_on_addresses');
 
-    start_address = index_start_address;
-    destination_address = index_destination_address;
+    start_address = ui_input_start_address;
+    destination_address = ui_input_destination_address;
 
     Bliss.fetch(address_API + encodeURI(start_address))
       .then(store_starting_point)

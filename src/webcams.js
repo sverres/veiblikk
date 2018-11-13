@@ -22,11 +22,11 @@
  * - display_cctvs manipulates DOM tree to show webcam images
  * 
  * Side effects:
- * - status messages to ui
+ * - status messages to UI
  * - DOM tree updates
  * 
  * Normal flow is iterrupted by setTimeout to put function 
- * calls in event queue. This will keep ui responsive for
+ * calls in event queue. This will keep UI responsive for
  * user input, e.g. map zoom. 
  * 
  * https://github.com/sverres/veiblikk
@@ -157,6 +157,7 @@ const VEIBLIKK_webcams = (function () {
           store_cctv_point(cctv_point, cctv_record, route);
         };
       });
+
     setTimeout(function () {
       route_segments_loop(route)
     }, default_timeout);

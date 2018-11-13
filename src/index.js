@@ -2,9 +2,8 @@
  * Module VEIBLIKK_index
  * 
  * App entry point. 
- * Adds event listeners to ui.
+ * Adds event listeners to UI.
  * Calls get_starting_point in address module.
- * Exports addresses from text boxes.
  * 
  * https://github.com/sverres/veiblikk
  * 
