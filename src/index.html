@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <title>veiblikk</title>
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css" rel="stylesheet" />
+  <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="veiblikk.css">
   <style>
@@ -15,24 +15,30 @@
       #logo {
         height: 100px;
       }
+
       #about_link {
         visibility: hidden;
       }
+
       #address-dialog {
         margin-right: 0.1em;
       }
+
       input {
         width: 10em;
       }
+
       #map {
         height: 150px;
       }
+
       .svv_image h4,
       .svv_image p {
         max-width: 320px;
         margin: auto;
         font-size: 0.5em;
       }
+
       .svv_image img {
         border: 1px solid;
         width: 320px;
@@ -45,30 +51,35 @@
       #logo {
         height: 100px;
       }
+
       #about_link {
         visibility: hidden;
       }
+
       #address-dialog {
         margin-right: 0.1em;
       }
+
       input {
         width: 8em;
       }
+
       #map {
         height: 150px;
       }
+
       .svv_image h4,
       .svv_image p {
         max-width: 300px;
         margin: auto;
         font-size: 0.5em;
       }
+
       .svv_image img {
         border: 1px solid;
         width: 300px;
       }
     }
-
   </style>
 
 </head>
@@ -130,8 +141,8 @@
   <section id="webcams"></section>
   <script src="polyfill.js"></script>
   <script src="https://cdn.polyfill.io/v2/polyfill.js?features=blissfuljs"></script>
-  <script src="https://cdn.jsdelivr.net/gh/leaverou/bliss@1.0.5/bliss.shy.js" integrity="sha256-Im0ZtMB0y5ppTWyRjoQtL8t1xNOR9y3QbwwMk20h7Yc="
-    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/blissfuljs@1.0.6/bliss.shy.js"
+    integrity="sha256-xHLQRTdHH8A/ltq+Q3StJhluAnxHAO8rxveRu2XqCVw=" crossorigin="anonymous"></script>
   <script>
     var start_address = null;
     var destination_address = null;
@@ -157,7 +168,7 @@
       }
     );
   </script>
-  <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js"></script>
+  <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.js"></script>
   <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoic3ZlcnJlc3QiLCJhIjoiY2l1Y2VqcmRzMDAxMTJ0cGl6c3ZteGozMyJ9.ieY0kEubUisIWVVwjZiuBg';
     var map = new mapboxgl.Map({
@@ -175,6 +186,7 @@
   <script src="https://epsg.io/25832.js"></script>
   <script src="https://epsg.io/25833.js"></script>
   <script src="https://epsg.io/4324.js"></script>
+  <script src="https://epsg.io/4258.js"></script>
   <script src="messages.js" charset="utf-8"></script>
   <script src="webcams.js" charset="utf-8"></script>
   <script src="route.js" charset="utf-8"></script>

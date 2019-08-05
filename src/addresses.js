@@ -12,7 +12,8 @@
 
 var VEIBLIKK_address = (function () {
 
-  var address_API = 'https://www.norgeskart.no/ws/adr.py?';
+  var address_API = 'https://ws.geonorge.no/adresser/v1/sok?sok=';
+  var address_hits = '&treffPerSide=1';
 
   var route_points = {
     'start_x': null,
@@ -22,19 +23,20 @@ var VEIBLIKK_address = (function () {
   };
 
 
-  var proj4_25832_to_25833 = function (x, y) {
-    return proj4('EPSG:25832', 'EPSG:25833', [x, y]);
+  var proj4_4258_to_25833 = function (x, y) {
+    return proj4('EPSG:4258', 'EPSG:25833', [x, y]);
   };
 
 
   var parse_address_JSON = function (address_JSON) {
-    var address = JSON.parse(address_JSON)[0];
+    var address = JSON.parse(address_JSON);
     if (address == null) {
       return false;
     } else {
-      var address_x = parseFloat(address['LONGITUDE']);
-      var address_y = parseFloat(address['LATITUDE']);
-      var address_point = proj4_25832_to_25833(address_x, address_y);
+      console.log(address);
+      var address_x = parseFloat(address.adresser[0].representasjonspunkt.lon);
+      var address_y = parseFloat(address.adresser[0].representasjonspunkt.lat);
+      var address_point = proj4_4258_to_25833(address_x, address_y);
       return address_point;
     };
   };
@@ -46,7 +48,7 @@ var VEIBLIKK_address = (function () {
       'Finner fra-adresse . .',
       'working_on_addresses');
 
-    Bliss.fetch(address_API + encodeURI(start_address))
+    Bliss.fetch(address_API + encodeURI(start_address) + address_hits)
       .then(store_starting_point)
       .catch(get_starting_point_error);
   };
@@ -87,7 +89,7 @@ var VEIBLIKK_address = (function () {
       'working_on_addresses'
     );
 
-    Bliss.fetch(address_API + encodeURI(destination_address))
+    Bliss.fetch(address_API + encodeURI(destination_address) + address_hits)
       .then(store_destination_point)
       .catch(get_destination_point_error);
   };
