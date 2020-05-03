@@ -29,8 +29,8 @@ import { start_address, destination_address } from "./index.js";
 import { get_route } from "./route.js";
 import { ux_message } from "./messages.js"
 
-var address_API = 'https://ws.geonorge.no/adresser/v1/sok?sok=';
-var address_hits = '&treffPerSide=1';
+const address_API = 'https://ws.geonorge.no/adresser/v1/sok?sok=';
+const address_hits = '&treffPerSide=1';
 
 const route_points = {
     'start_x': null,
@@ -40,19 +40,19 @@ const route_points = {
 };
 
 
-var proj4_4258_to_25833 = function (x, y) {
+const proj4_4258_to_25833 = function (x, y) {
     return proj4('EPSG:4258', 'EPSG:25833', [x, y]);
 };
 
 
-var parse_address_JSON = function (address_JSON) {
-    var address = JSON.parse(address_JSON);
+const parse_address_JSON = function (address_JSON) {
+    const address = JSON.parse(address_JSON);
     if (address == null) {
         return false;
     } else {
-        var address_x = parseFloat(address.adresser[0].representasjonspunkt.lon);
-        var address_y = parseFloat(address.adresser[0].representasjonspunkt.lat);
-        var address_point = proj4_4258_to_25833(address_x, address_y);
+        const address_x = parseFloat(address.adresser[0].representasjonspunkt.lon);
+        const address_y = parseFloat(address.adresser[0].representasjonspunkt.lat);
+        const address_point = proj4_4258_to_25833(address_x, address_y);
         return address_point;
     };
 };
@@ -94,7 +94,7 @@ const get_starting_point_error = error =>
         'error');
 
 
-var get_destination_point = function () {
+const get_destination_point = function () {
     ux_message(
         '#status_message',
         'Finner til-adresse . .',
@@ -107,10 +107,10 @@ var get_destination_point = function () {
 };
 
 
-var store_destination_point = function (xhr) {
+const store_destination_point = function (xhr) {
 
-    var destination_address_JSON = xhr.response;
-    var destination_point = parse_address_JSON(destination_address_JSON);
+    const destination_address_JSON = xhr.response;
+    const destination_point = parse_address_JSON(destination_address_JSON);
     if (destination_point == false) {
         ux_message(
             '#status_message',
