@@ -65,7 +65,7 @@ const get_route = route_points => {
 
   const route_API_request =
     'https://www.vegvesen.no/ws/no/vegvesen/'
-    + 'ruteplan/routingService_v1_0/routingService?'
+    + 'ruteplan/routingService_v2_0/open/routingService?'
     + 'stops=' + stops + '&'
     + 'returnDirections=false&'
     + 'returnGeometry=true&'
