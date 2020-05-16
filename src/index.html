@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <title>Veiblikk</title>
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css" rel="stylesheet" />
+  <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link href="responsive.css" rel="stylesheet">
   <link href="veiblikk.css" rel="stylesheet">
@@ -61,17 +61,18 @@
     <p>For mer informasjon om Veiblikk, se
       <a href="https://github.com/sverres/veiblikk">github.com/sverres/veiblikk</a>
     </p>
-    <p>Veiblikk krever en relativt ny nettleser for å virke. IE 11 virker pr. 05.12.17.</p>
+    <p>Veiblikk krever en relativt ny nettleser for å virke. IE 11 virker ikke lenger fra 16.05.20.</p>
+    <p>Gjeldende versjon: 16.05.2020</p>
   </aside>
   <section id="map"></section>
   <section id="travel_data" class="no_data">&nbsp;</section>
   <section id="webcams"></section>
-  <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js"></script>
+  <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.js"></script>
   <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoic3ZlcnJlc3QiLCJhIjoiY2l1Y2VqcmRzMDAxMTJ0cGl6c3ZteGozMyJ9.ieY0kEubUisIWVVwjZiuBg';
     const map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v10',
+      style: 'mapbox://styles/mapbox/streets-v11',
       center: [10, 60],
       zoom: 5,
     });
@@ -79,9 +80,9 @@
   </script>
   <script src="wmts.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/leaverou/bliss@1.0.5/bliss.shy.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fast-xml-parser/3.12.16/parser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fast-xml-parser/3.16.0/parser.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/5.1.6/turf.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.6.1/proj4.js"></script>
   <script src="https://epsg.io/25832.js"></script>
   <script src="https://epsg.io/25833.js"></script>
   <script src="https://epsg.io/4324.js"></script>
