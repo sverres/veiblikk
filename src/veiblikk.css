@@ -73,7 +73,7 @@ input {
 }
 
 #travel_data {
-  max-width: 802px;
+  max-width: 1004px;
   margin: auto;
   margin-top: 15px;
   text-align: center;
@@ -100,8 +100,8 @@ input {
 }
 
 #map {
-  max-width: 798px;
-  height: 370px;
+  max-width: 1200px;
+  height: 600px;
   margin-top: 30px;
   margin-bottom: 30px;
   margin: auto;
